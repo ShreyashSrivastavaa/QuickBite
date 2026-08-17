@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Lock, Mail, User as UserIcon, Phone, ShieldCheck } from 'lucide-react';
+import { X, Lock, Mail, User as UserIcon, Phone, ShieldCheck, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
@@ -53,6 +53,16 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
     const res = await loginAdmin(adminEmail, adminPassword);
     setLoading(false);
     if (res.success) onClose();
+  };
+
+  const fillDemoUser = () => {
+    setLoginEmail('user@quickbite.com');
+    setLoginPassword('User@123456');
+  };
+
+  const fillDemoAdmin = () => {
+    setAdminEmail('admin@quickbite.com');
+    setAdminPassword('Admin@123456');
   };
 
   return (
@@ -133,7 +143,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                 />
               </div>
 
-              <div className="input-group" style={{ marginBottom: '24px' }}>
+              <div className="input-group" style={{ marginBottom: '20px' }}>
                 <label className="input-label">Password</label>
                 <input
                   type="password"
@@ -145,12 +155,21 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%', height: '46px' }}>
+              <button type="submit" className="btn btn-primary" disabled={loading} style={{ width: '100%', height: '46px', marginBottom: '14px' }}>
                 {loading ? 'Authenticating...' : 'Sign In'}
               </button>
 
-              <p style={{ marginTop: '16px', fontSize: '0.85rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
-                Demo User: <b>user@quickbite.com</b> / <b>User@123456</b>
+              <button
+                type="button"
+                className="btn btn-ghost"
+                onClick={fillDemoUser}
+                style={{ width: '100%', fontSize: '0.85rem', color: 'var(--primary)', borderColor: 'var(--primary)' }}
+              >
+                <Sparkles size={14} /> Auto-fill Demo User Credentials
+              </button>
+
+              <p style={{ marginTop: '14px', fontSize: '0.82rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
+                Demo Account: <b>user@quickbite.com</b> / <b>User@123456</b>
               </p>
             </form>
           )}
@@ -163,7 +182,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                   <input
                     type="text"
                     className="input-field"
-                    placeholder="John"
+                    placeholder="Shreyash"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
@@ -173,7 +192,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                   <input
                     type="text"
                     className="input-field"
-                    placeholder="Doe"
+                    placeholder="Srivastava"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                   />
@@ -197,7 +216,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                 <input
                   type="tel"
                   className="input-field"
-                  placeholder="+1 (555) 000-0000"
+                  placeholder="+91 9876543210"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
@@ -240,7 +259,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                 />
               </div>
 
-              <div className="input-group" style={{ marginBottom: '24px' }}>
+              <div className="input-group" style={{ marginBottom: '20px' }}>
                 <label className="input-label">Admin Password</label>
                 <input
                   type="password"
@@ -252,11 +271,20 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                 />
               </div>
 
-              <button type="submit" className="btn btn-accent" disabled={loading} style={{ width: '100%', height: '46px' }}>
+              <button type="submit" className="btn btn-accent" disabled={loading} style={{ width: '100%', height: '46px', marginBottom: '14px' }}>
                 {loading ? 'Authenticating Admin...' : 'Login to Admin Console'}
               </button>
 
-              <p style={{ marginTop: '16px', fontSize: '0.85rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
+              <button
+                type="button"
+                className="btn btn-ghost"
+                onClick={fillDemoAdmin}
+                style={{ width: '100%', fontSize: '0.85rem', color: '#fb923c', borderColor: '#fb923c' }}
+              >
+                <Sparkles size={14} /> Auto-fill Demo Admin Credentials
+              </button>
+
+              <p style={{ marginTop: '14px', fontSize: '0.82rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
                 Demo Admin: <b>admin@quickbite.com</b> / <b>Admin@123456</b>
               </p>
             </form>
