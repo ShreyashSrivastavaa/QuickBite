@@ -11,29 +11,29 @@ export default function HeroBanner({
   setInThirtyMinOnly,
 }) {
   return (
-    <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '40px 24px 20px 24px' }}>
+    <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '24px 16px 20px 16px' }}>
       {/* Split Hero Section */}
-      <div style={{
+      <div className="hero-grid-split" style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: '40px',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: '32px',
         alignItems: 'center',
-        marginBottom: '48px'
+        marginBottom: '36px'
       }}>
         {/* Left Column: Headline & Search */}
         <div>
-          <div style={{ display: 'inline-flex', marginBottom: '20px' }}>
+          <div style={{ display: 'inline-flex', marginBottom: '16px' }}>
             <span className="badge badge-emerald">
               <Flame size={14} color="#34d399" />
-              India's Premier Gourmet Food Delivery
+              India's Premier Gourmet Delivery
             </span>
           </div>
 
           <h1 className="font-serif" style={{
-            fontSize: 'clamp(2.5rem, 5.2vw, 4.2rem)',
+            fontSize: 'clamp(2rem, 4.5vw, 3.8rem)',
             fontWeight: 700,
-            lineHeight: 1.1,
-            marginBottom: '20px',
+            lineHeight: 1.15,
+            marginBottom: '16px',
             color: 'var(--text-primary)'
           }}>
             Artisanal Culinary <br />
@@ -47,11 +47,11 @@ export default function HeroBanner({
           </h1>
 
           <p style={{
-            fontSize: '1.15rem',
+            fontSize: '1rem',
             color: 'var(--text-secondary)',
-            marginBottom: '32px',
+            marginBottom: '24px',
             maxWidth: '520px',
-            lineHeight: 1.6
+            lineHeight: 1.5
           }}>
             Experience authentic flavors, handcrafted biryanis, gourmet wood-fired pizzas, and indulgent desserts brought hot to your doorstep.
           </p>
@@ -60,14 +60,14 @@ export default function HeroBanner({
           <div style={{
             position: 'relative',
             maxWidth: '520px',
-            marginBottom: '24px'
+            marginBottom: '16px'
           }}>
             <Search
-              size={22}
+              size={20}
               color="#94a3b8"
               style={{
                 position: 'absolute',
-                left: '20px',
+                left: '16px',
                 top: '50%',
                 transform: 'translateY(-50%)'
               }}
@@ -75,15 +75,15 @@ export default function HeroBanner({
             <input
               type="text"
               className="input-field"
-              placeholder="Search for biryani, burgers, pizza, or desserts..."
+              placeholder="Search biryani, burgers, pizza..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
-                paddingLeft: '54px',
-                height: '56px',
+                paddingLeft: '48px',
+                height: '50px',
                 borderRadius: 'var(--radius-full)',
-                fontSize: '1rem',
-                boxShadow: '0 10px 35px rgba(0, 0, 0, 0.15)'
+                fontSize: '0.95rem',
+                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)'
               }}
             />
           </div>
@@ -96,121 +96,79 @@ export default function HeroBanner({
             borderRadius: 'var(--radius-lg)',
             overflow: 'hidden',
             width: '100%',
-            maxWidth: '460px',
+            maxWidth: '440px',
             position: 'relative',
-            boxShadow: '0 25px 60px rgba(0, 0, 0, 0.3), 0 0 30px rgba(16, 185, 129, 0.2)'
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.25), 0 0 25px rgba(16, 185, 129, 0.15)'
           }}>
             <img
               src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80"
               alt="Gourmet Food Showcase"
-              style={{ width: '100%', height: '340px', objectFit: 'cover' }}
+              style={{ width: '100%', height: '280px', objectFit: 'cover' }}
             />
             <div style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(180deg, transparent 40%, rgba(7, 9, 14, 0.85) 100%)'
+              background: 'linear-gradient(180deg, transparent 35%, rgba(7, 9, 14, 0.88) 100%)'
             }} />
-            <div style={{ position: 'absolute', bottom: '20px', left: '24px', right: '24px' }}>
-              <span className="badge badge-gold" style={{ marginBottom: '8px' }}>
+            <div style={{ position: 'absolute', bottom: '16px', left: '16px', right: '16px' }}>
+              <span className="badge badge-gold" style={{ marginBottom: '6px' }}>
                 <Star size={12} fill="#fbbf24" /> Chef's Choice
               </span>
-              <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff' }}>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#ffffff' }}>
                 Hyderabadi Dum Biryani
               </h3>
-              <p style={{ fontSize: '0.85rem', color: '#cbd5e1' }}>
+              <p style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>
                 Slow-cooked saffron rice with tender spiced chicken.
               </p>
-            </div>
-          </div>
-
-          {/* Floating Stat Card 1 */}
-          <div className="glass-panel" style={{
-            position: 'absolute',
-            top: '20px',
-            left: '-10px',
-            padding: '12px 18px',
-            borderRadius: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
-          }}>
-            <div style={{ background: 'rgba(245, 158, 11, 0.2)', padding: '8px', borderRadius: '10px' }}>
-              <Star size={20} color="#fbbf24" fill="#fbbf24" />
-            </div>
-            <div>
-              <strong style={{ fontSize: '1rem', color: 'var(--text-primary)', display: 'block' }}>4.9 / 5.0</strong>
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>Over 15,000+ Reviews</span>
-            </div>
-          </div>
-
-          {/* Floating Stat Card 2 */}
-          <div className="glass-panel" style={{
-            position: 'absolute',
-            bottom: '20px',
-            right: '-10px',
-            padding: '12px 18px',
-            borderRadius: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
-          }}>
-            <div style={{ background: 'rgba(16, 185, 129, 0.2)', padding: '8px', borderRadius: '10px' }}>
-              <Zap size={20} color="#34d399" />
-            </div>
-            <div>
-              <strong style={{ fontSize: '1rem', color: 'var(--text-primary)', display: 'block' }}>20 Mins Avg</strong>
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>Express Kitchen Prep</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* 4-Column Feature Highlights Bar */}
-      <div style={{
+      <div className="feature-highlights-grid" style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        gap: '16px',
-        marginBottom: '40px'
+        gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+        gap: '12px',
+        marginBottom: '32px'
       }}>
-        <div className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div style={{ background: 'rgba(16, 185, 129, 0.15)', padding: '12px', borderRadius: '14px', color: '#34d399' }}>
-            <Zap size={24} />
+        <div className="glass-card" style={{ padding: '14px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ background: 'rgba(16, 185, 129, 0.15)', padding: '10px', borderRadius: '12px', color: '#34d399' }}>
+            <Zap size={20} />
           </div>
           <div>
-            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)' }}>Express 30-Min</h4>
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Piping hot delivery</span>
+            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>Express 30-Min</h4>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>Piping hot delivery</span>
           </div>
         </div>
 
-        <div className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div style={{ background: 'rgba(249, 115, 22, 0.15)', padding: '12px', borderRadius: '14px', color: '#fb923c' }}>
-            <Award size={24} />
+        <div className="glass-card" style={{ padding: '14px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ background: 'rgba(249, 115, 22, 0.15)', padding: '10px', borderRadius: '12px', color: '#fb923c' }}>
+            <Award size={20} />
           </div>
           <div>
-            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)' }}>100% Authentic</h4>
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Artisanal ingredients</span>
+            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>100% Authentic</h4>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>Artisanal ingredients</span>
           </div>
         </div>
 
-        <div className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div style={{ background: 'rgba(245, 158, 11, 0.15)', padding: '12px', borderRadius: '14px', color: '#fbbf24' }}>
-            <ShieldCheck size={24} />
+        <div className="glass-card" style={{ padding: '14px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ background: 'rgba(245, 158, 11, 0.15)', padding: '10px', borderRadius: '12px', color: '#fbbf24' }}>
+            <ShieldCheck size={20} />
           </div>
           <div>
-            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)' }}>Hygienic Sealed</h4>
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Safety-first packing</span>
+            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>Hygienic Sealed</h4>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>Safety-first packing</span>
           </div>
         </div>
 
-        <div className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <div style={{ background: 'rgba(56, 189, 248, 0.15)', padding: '12px', borderRadius: '14px', color: '#38bdf8' }}>
-            <HeartHandshake size={24} />
+        <div className="glass-card" style={{ padding: '14px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ background: 'rgba(56, 189, 248, 0.15)', padding: '10px', borderRadius: '12px', color: '#38bdf8' }}>
+            <HeartHandshake size={20} />
           </div>
           <div>
-            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)' }}>COD & Instant UPI</h4>
-            <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Flexible checkout</span>
+            <h4 style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>COD & Instant UPI</h4>
+            <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>Flexible checkout</span>
           </div>
         </div>
       </div>
@@ -221,8 +179,7 @@ export default function HeroBanner({
         alignItems: 'center',
         gap: '8px',
         overflowX: 'auto',
-        padding: '6px 4px',
-        margin: '0 -10px',
+        padding: '6px 2px',
         scrollBehavior: 'smooth'
       }}>
         <button
@@ -233,7 +190,7 @@ export default function HeroBanner({
           }}
           style={{ borderRadius: 'var(--radius-full)', flexShrink: 0 }}
         >
-          <Compass size={16} />
+          <Compass size={15} />
           <span>All Menu</span>
         </button>
 
@@ -245,7 +202,7 @@ export default function HeroBanner({
           }}
           style={{ borderRadius: 'var(--radius-full)', flexShrink: 0 }}
         >
-          <Zap size={16} />
+          <Zap size={15} />
           <span>⚡ Under 30 Mins</span>
         </button>
 

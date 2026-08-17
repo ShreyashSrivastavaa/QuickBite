@@ -67,8 +67,8 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
             src="/logo.png"
             alt="QuickBite Logo"
             style={{
-              width: '38px',
-              height: '38px',
+              width: '36px',
+              height: '36px',
               borderRadius: '10px',
               objectFit: 'cover',
               boxShadow: '0 4px 18px rgba(16, 185, 129, 0.4)',
@@ -76,47 +76,47 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
             }}
           />
           <div>
-            <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
+            <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 900, fontSize: '1.25rem', color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
               Quick<span style={{ color: 'var(--primary)' }}>Bite</span>
             </span>
-            <span className="header-brand-sub" style={{ display: 'block', fontSize: '0.6rem', color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>
+            <span className="hide-mobile" style={{ display: 'block', fontSize: '0.6rem', color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>
               Gourmet Kitchens • India
             </span>
           </div>
         </div>
 
         {/* Header Action Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'nowrap' }}>
           {/* Light / Dark Mode Toggle Button */}
           <button
             className="btn btn-ghost btn-icon"
             onClick={toggleTheme}
             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
-            style={{ border: '1px solid var(--glass-border)', padding: '6px 10px' }}
+            style={{ border: '1px solid var(--glass-border)', padding: '6px 8px' }}
           >
             {theme === 'dark' ? <Sun size={18} color="#fbbf24" /> : <Moon size={18} color="#6366f1" />}
           </button>
 
-          {/* Admin Console Toggle Button */}
+          {/* Admin Console Button (ONLY visible when authenticated as Admin) */}
           {admin && (
-            <button className="btn btn-ghost" onClick={onOpenAdmin} style={{ color: '#f97316', border: '1px solid rgba(249, 115, 22, 0.4)', padding: '6px 10px' }}>
+            <button className="btn btn-ghost" onClick={onOpenAdmin} style={{ color: '#f97316', border: '1px solid rgba(249, 115, 22, 0.4)', padding: '6px 8px' }}>
               <ShieldCheck size={16} />
-              <span className="btn-label-mobile">Admin</span>
+              <span className="hide-mobile">Admin</span>
             </button>
           )}
 
           {/* User Orders History */}
           {user && (
-            <button className="btn btn-ghost" onClick={onOpenOrders} style={{ padding: '6px 10px' }} title="My Orders">
+            <button className="btn btn-ghost" onClick={onOpenOrders} style={{ padding: '6px 8px' }} title="My Orders">
               <Clock size={16} />
-              <span className="btn-label-mobile">Orders</span>
+              <span className="hide-mobile">Orders</span>
             </button>
           )}
 
           {/* Authentication State Controls */}
           {admin ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span className="header-user-name" style={{ fontSize: '0.82rem', color: '#f97316', fontWeight: 700 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span className="hide-mobile" style={{ fontSize: '0.8rem', color: '#f97316', fontWeight: 700 }}>
                 Admin
               </span>
               <button className="btn btn-ghost btn-icon" onClick={logoutAdmin} title="Logout Admin" style={{ color: '#ef4444', padding: '6px 8px' }}>
@@ -124,8 +124,8 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
               </button>
             </div>
           ) : user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span className="header-user-name" style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 600 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span className="hide-mobile" style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 600 }}>
                 Namaste, {user.firstName || 'Foodie'}
               </span>
               <button className="btn btn-ghost btn-icon" onClick={logoutUser} title="Logout" style={{ padding: '6px 8px' }}>
@@ -133,7 +133,7 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
               </button>
             </div>
           ) : (
-            <button className="btn btn-ghost" onClick={onOpenAuth} style={{ padding: '6px 12px' }}>
+            <button className="btn btn-ghost" onClick={onOpenAuth} style={{ padding: '6px 10px' }}>
               <User size={16} />
               <span>Sign In</span>
             </button>
@@ -147,12 +147,12 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              padding: '6px 14px',
+              padding: '6px 12px',
               position: 'relative'
             }}
           >
             <ShoppingBag size={18} />
-            <span className="btn-label-mobile">Cart</span>
+            <span className="hide-mobile">Cart</span>
             {totalItemCount > 0 && (
               <span style={{
                 background: '#f97316',
