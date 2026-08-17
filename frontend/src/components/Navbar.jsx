@@ -139,27 +139,25 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
           <button
             className="btn btn-primary glow-primary"
             onClick={() => setIsCartOpen(true)}
-            style={{ position: 'relative', padding: '10px 20px' }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '10px 18px',
+              position: 'relative'
+            }}
           >
             <ShoppingBag size={20} />
             <span>Cart</span>
             {totalItemCount > 0 && (
               <span style={{
-                position: 'absolute',
-                top: '-6px',
-                right: '-6px',
                 background: '#f97316',
                 color: '#ffffff',
-                fontSize: '0.75rem',
+                fontSize: '0.78rem',
                 fontWeight: 800,
-                width: '22px',
-                height: '22px',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justify: 'center',
-                border: '2px solid var(--bg-dark)',
-                boxShadow: '0 2px 8px rgba(249, 115, 22, 0.5)'
+                padding: '2px 8px',
+                borderRadius: '12px',
+                boxShadow: '0 2px 8px rgba(249, 115, 22, 0.4)'
               }}>
                 {totalItemCount}
               </span>
