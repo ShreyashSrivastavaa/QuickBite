@@ -59,7 +59,7 @@ export default function CheckoutModal({ isOpen, onClose, onOpenAuth }) {
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>
             {completedOrder ? 'Order Confirmed!' : 'Checkout'}
           </h2>
           <button className="btn btn-ghost btn-icon" onClick={onClose}>
@@ -71,7 +71,7 @@ export default function CheckoutModal({ isOpen, onClose, onOpenAuth }) {
           /* Order Confirmation View */
           <div style={{ padding: '32px 24px', textAlign: 'center' }}>
             <CheckCircle size={64} color="#10b981" style={{ marginBottom: '16px' }} />
-            <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '8px', color: '#f8fafc' }}>
+            <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '8px', color: 'var(--text-primary)' }}>
               Order Placed Successfully!
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '20px' }}>
@@ -85,11 +85,11 @@ export default function CheckoutModal({ isOpen, onClose, onOpenAuth }) {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Total Amount:</span>
-                <strong>₹{completedOrder.totalAmount}</strong>
+                <strong style={{ color: 'var(--text-primary)' }}>₹{completedOrder.totalAmount}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
                 <span style={{ color: 'var(--text-muted)' }}>Payment Method:</span>
-                <span>{completedOrder.paidThrough}</span>
+                <span style={{ color: 'var(--text-primary)' }}>{completedOrder.paidThrough}</span>
               </div>
             </div>
 
@@ -101,7 +101,7 @@ export default function CheckoutModal({ isOpen, onClose, onOpenAuth }) {
           /* Checkout Form View */
           <form onSubmit={handleSubmitOrder} style={{ padding: '24px' }}>
             {!token && (
-              <div style={{ background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)', padding: '12px 16px', borderRadius: '10px', marginBottom: '20px', fontSize: '0.85rem', color: '#fbbf24' }}>
+              <div style={{ background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)', padding: '12px 16px', borderRadius: '10px', marginBottom: '20px', fontSize: '0.85rem', color: '#f59e0b' }}>
                 💡 You are checking out as a guest. Clicking checkout will prompt you to sign in.
               </div>
             )}
@@ -171,15 +171,16 @@ export default function CheckoutModal({ isOpen, onClose, onOpenAuth }) {
               alignItems: 'center',
               justify: 'space-between',
               padding: '16px',
-              background: 'rgba(255, 255, 255, 0.04)',
+              background: 'var(--bg-card)',
               borderRadius: '12px',
+              border: '1px solid var(--glass-border)',
               marginBottom: '24px'
             }}>
               <div>
                 <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)' }}>Total Amount</span>
                 <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary)' }}>₹{total}</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', color: '#34d399' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', color: '#10b981' }}>
                 <ShieldCheck size={16} /> 256-Bit Encrypted Checkout
               </div>
             </div>
