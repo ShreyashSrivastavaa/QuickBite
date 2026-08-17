@@ -6,6 +6,8 @@ services:
     buildCommand: "npm install && npm run seed && cd frontend && npm install --include=dev && npm run build && cd .."
     startCommand: "node app.js"
     envVars:
+      - key: NODE_VERSION
+        value: "20.18.0"
       - key: PORT
         value: "8000"
       - key: NODE_ENV
