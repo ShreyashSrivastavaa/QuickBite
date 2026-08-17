@@ -6,13 +6,13 @@ services:
     startCommand: "node app.js"
     envVars:
       - key: PORT
-        value: 8000
+        value: "8000"
       - key: NODE_ENV
         value: production
       - key: MONGODB_URI
-        value: mongodb+srv://shreyashsr2004_db_user:Shreyash1531%40@quickbite.dnxquyg.mongodb.net/quickbite?retryWrites=true&w=majority&appName=QuickBite
+        sync: false
       - key: APP_KEY
-        value: quickbite_production_jwt_secret_key_987654321_shreyash
+        sync: false
       - key: JWT_EXPIRES_IN
         value: 7d
       - key: CORS_ORIGIN
