@@ -67,7 +67,7 @@ if (NODE_ENV === "production") {
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
-// Serve static assets
+// Serve static images
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 /**
@@ -78,7 +78,25 @@ app.use("/user", userRoutes);
 app.use("/food", foodRoutes);
 app.use("/admin", adminRoutes);
 
-// Handle 404 routes
+// Serve Frontend Production Build (Single-Host 1-Click Deployment)
+const frontendDistPath = path.join(__dirname, "frontend", "dist");
+app.use(express.static(frontendDistPath));
+
+app.get("*", (req, res, next) => {
+  if (
+    req.path.startsWith("/user") ||
+    req.path.startsWith("/food") ||
+    req.path.startsWith("/admin") ||
+    req.path.startsWith("/health")
+  ) {
+    return next();
+  }
+  res.sendFile(path.join(frontendDistPath, "index.html"), (err) => {
+    if (err) next();
+  });
+});
+
+// Handle 404 routes for unhandled API endpoints
 app.use(AppError.onInvalidEndpoint);
 
 /**
