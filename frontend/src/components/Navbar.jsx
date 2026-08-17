@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingBag, User, ShieldCheck, Clock, UtensilsCrossed, LogOut, Sparkles, X, Sun, Moon } from 'lucide-react';
+import { ShoppingBag, User, ShieldCheck, Clock, LogOut, Sparkles, X, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 
@@ -97,16 +97,11 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
             {theme === 'dark' ? <Sun size={20} color="#fbbf24" /> : <Moon size={20} color="#6366f1" />}
           </button>
 
-          {/* Admin Console Toggle */}
-          {admin ? (
+          {/* Admin Console Button (ONLY visible when authenticated as Admin) */}
+          {admin && (
             <button className="btn btn-ghost" onClick={onOpenAdmin} style={{ color: '#fb923c', border: '1px solid rgba(249, 115, 22, 0.4)' }}>
               <ShieldCheck size={18} />
               <span>Admin Console</span>
-            </button>
-          ) : (
-            <button className="btn btn-ghost" onClick={onOpenAdmin} style={{ fontSize: '0.85rem' }}>
-              <ShieldCheck size={16} />
-              <span>Admin</span>
             </button>
           )}
 

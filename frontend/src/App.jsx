@@ -309,10 +309,21 @@ function MainApp() {
       <AuthModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
+        onAdminSuccess={() => setIsAdminOpen(true)}
       />
       <AdminDashboardModal
         isOpen={isAdminOpen}
         onClose={() => setIsAdminOpen(false)}
+        onFoodCreated={() => {
+          // Re-fetch foods on landing page when admin adds new food
+          const fetchFoods = async () => {
+            try {
+              const res = await api.get('/food');
+              if (res.data.success) setFoods(res.data.foods || []);
+            } catch (e) {}
+          };
+          fetchFoods();
+        }}
       />
 
       {/* Rich Footer */}

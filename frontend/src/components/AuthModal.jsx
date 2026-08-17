@@ -52,7 +52,10 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
     setLoading(true);
     const res = await loginAdmin(adminEmail, adminPassword);
     setLoading(false);
-    if (res.success) onClose();
+    if (res.success) {
+      onClose();
+      if (onAdminSuccess) onAdminSuccess();
+    }
   };
 
   const fillDemoUser = () => {

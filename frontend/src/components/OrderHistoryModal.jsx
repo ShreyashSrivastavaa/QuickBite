@@ -8,22 +8,31 @@ export default function OrderHistoryModal({ isOpen, onClose }) {
   const [loading, setLoading] = useState(true);
   const { token } = useAuth();
 
+  const fetchOrders = async (silent = false) => {
+    if (!token) return;
+    try {
+      if (!silent) setLoading(true);
+      const res = await api.get('/user/order');
+      if (res.data.success) {
+        setOrders(res.data.orders || []);
+      }
+    } catch (err) {
+      console.error('Failed to fetch user orders:', err);
+    } finally {
+      if (!silent) setLoading(false);
+    }
+  };
+
+  // Real-Time Live Polling for User Orders (Every 3 seconds)
   useEffect(() => {
     if (isOpen && token) {
-      const fetchOrders = async () => {
-        try {
-          setLoading(true);
-          const res = await api.get('/user/order');
-          if (res.data.success) {
-            setOrders(res.data.orders || []);
-          }
-        } catch (err) {
-          console.error('Failed to fetch user orders:', err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchOrders();
+      fetchOrders(false);
+
+      const interval = setInterval(() => {
+        fetchOrders(true); // Silent update
+      }, 3000);
+
+      return () => clearInterval(interval);
     }
   }, [isOpen, token]);
 
@@ -53,7 +62,8 @@ export default function OrderHistoryModal({ isOpen, onClose }) {
         <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Package size={22} color="var(--primary)" />
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>My Order History</h2>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>My Order History</h2>
+            <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>⚡ Live Sync</span>
           </div>
           <button className="btn btn-ghost btn-icon" onClick={onClose}>
             <X size={20} />
@@ -68,8 +78,8 @@ export default function OrderHistoryModal({ isOpen, onClose }) {
             </div>
           ) : orders.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-secondary)' }}>
-              <Package size={48} color="#334155" style={{ marginBottom: '12px' }} />
-              <h3 style={{ fontSize: '1.1rem', marginBottom: '4px', color: '#f8fafc' }}>No orders placed yet</h3>
+              <Package size={48} color="#64748b" style={{ marginBottom: '12px' }} />
+              <h3 style={{ fontSize: '1.1rem', marginBottom: '4px', color: 'var(--text-primary)' }}>No orders placed yet</h3>
               <p style={{ fontSize: '0.85rem' }}>Place your first order and track its status live!</p>
             </div>
           ) : (
@@ -89,9 +99,9 @@ export default function OrderHistoryModal({ isOpen, onClose }) {
                   </div>
 
                   {/* Order Items */}
-                  <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '10px 14px', borderRadius: '10px', marginBottom: '12px' }}>
+                  <div style={{ background: 'rgba(0, 0, 0, 0.04)', padding: '10px 14px', borderRadius: '10px', marginBottom: '12px', border: '1px solid var(--glass-border)' }}>
                     {ord.items.map((item, idx) => (
-                      <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '4px' }}>
+                      <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '4px', color: 'var(--text-primary)' }}>
                         <span>{item.qty}x {item.name || item.food?.name || 'Food Item'}</span>
                         <span style={{ color: 'var(--text-secondary)' }}>₹{(item.price || item.food?.price || 0) * item.qty}</span>
                       </div>
@@ -102,7 +112,7 @@ export default function OrderHistoryModal({ isOpen, onClose }) {
                     <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                       Address: {ord.deliveryAddress || 'Standard Delivery'}
                     </span>
-                    <strong style={{ fontSize: '1.15rem', color: '#f8fafc' }}>
+                    <strong style={{ fontSize: '1.15rem', color: 'var(--text-primary)' }}>
                       ₹{ord.totalAmount}
                     </strong>
                   </div>

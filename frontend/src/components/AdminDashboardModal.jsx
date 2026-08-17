@@ -4,7 +4,7 @@ import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 
-export default function AdminDashboardModal({ isOpen, onClose }) {
+export default function AdminDashboardModal({ isOpen, onClose, onFoodCreated }) {
   const [stats, setStats] = useState(null);
   const [orders, setOrders] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
@@ -23,10 +23,10 @@ export default function AdminDashboardModal({ isOpen, onClose }) {
   const { adminToken, logoutAdmin } = useAuth();
   const { addToast } = useToast();
 
-  const fetchAdminData = async () => {
+  const fetchAdminData = async (silent = false) => {
     if (!adminToken) return;
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       const [statsRes, ordersRes, restRes] = await Promise.all([
         api.get('/admin/dashboard'),
         api.get('/admin/orders'),
@@ -37,21 +37,28 @@ export default function AdminDashboardModal({ isOpen, onClose }) {
       if (ordersRes.data.success) setOrders(ordersRes.data.orders);
       if (restRes.data.success) {
         setRestaurants(restRes.data.restaurants || []);
-        if (restRes.data.restaurants?.length > 0) {
+        if (restRes.data.restaurants?.length > 0 && !selectedRestId) {
           setSelectedRestId(restRes.data.restaurants[0]._id);
         }
       }
     } catch (err) {
       console.error('Failed to load admin dashboard:', err);
-      addToast('Failed to load admin metrics.', 'error');
+      if (!silent) addToast('Failed to load admin metrics.', 'error');
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
+  // Real-Time Live Polling (Every 3 seconds)
   useEffect(() => {
     if (isOpen && adminToken) {
-      fetchAdminData();
+      fetchAdminData(false);
+
+      const interval = setInterval(() => {
+        fetchAdminData(true); // Silent background update
+      }, 3000);
+
+      return () => clearInterval(interval);
     }
   }, [isOpen, adminToken]);
 
@@ -62,7 +69,7 @@ export default function AdminDashboardModal({ isOpen, onClose }) {
       const res = await api.put(`/admin/orders/${orderId}/status`, { orderStatus: newStatus });
       if (res.data.success) {
         addToast(`Order status updated to "${newStatus}"`, 'success');
-        fetchAdminData();
+        fetchAdminData(true);
       }
     } catch (err) {
       addToast('Failed to update order status.', 'error');
@@ -91,7 +98,8 @@ export default function AdminDashboardModal({ isOpen, onClose }) {
         setShowAddFood(false);
         setFoodName('');
         setFoodDesc('');
-        fetchAdminData();
+        fetchAdminData(true);
+        if (onFoodCreated) onFoodCreated();
       }
     } catch (err) {
       addToast('Failed to add food item.', 'error');
@@ -104,13 +112,14 @@ export default function AdminDashboardModal({ isOpen, onClose }) {
         {/* Header */}
         <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <ShieldCheck size={24} color="#fb923c" />
-            <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#f8fafc' }}>
-              QuickBite Admin Console • India
+            <ShieldCheck size={24} color="#f97316" />
+            <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+              QuickBite Admin Console • Live
             </h2>
+            <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>⚡ Real-Time Sync</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <button className="btn btn-ghost" onClick={fetchAdminData} title="Refresh">
+            <button className="btn btn-ghost" onClick={() => fetchAdminData(false)} title="Manual Refresh">
               <RefreshCw size={16} />
             </button>
             <button className="btn btn-ghost" onClick={logoutAdmin} style={{ color: '#ef4444' }}>
@@ -125,48 +134,48 @@ export default function AdminDashboardModal({ isOpen, onClose }) {
         <div style={{ padding: '24px', maxHeight: '80vh', overflowY: 'auto' }}>
           {loading ? (
             <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-secondary)' }}>
-              Loading Admin Analytics & Orders...
+              Loading Admin Analytics & Live Orders...
             </div>
           ) : (
             <>
-              {/* Analytics Metric Cards in ₹ */}
+              {/* Analytics Metric Cards in ₹ with High Contrast */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px', marginBottom: '24px' }}>
                 <div className="glass-card" style={{ padding: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#34d399', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Total Revenue</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#10b981', marginBottom: '8px' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Total Revenue</span>
                     <IndianRupee size={20} />
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#f8fafc' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                     ₹{stats?.totalRevenue ? stats.totalRevenue.toLocaleString() : '0'}
                   </div>
                 </div>
 
                 <div className="glass-card" style={{ padding: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#fb923c', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Total Orders</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#f97316', marginBottom: '8px' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Total Orders</span>
                     <ShoppingBag size={20} />
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#f8fafc' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                     {stats?.totalOrders || 0}
                   </div>
                 </div>
 
                 <div className="glass-card" style={{ padding: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#fbbf24', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Kitchen Active Orders</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#f59e0b', marginBottom: '8px' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Kitchen Active Orders</span>
                     <Utensils size={20} />
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#f8fafc' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                     {stats?.pendingOrders || 0}
                   </div>
                 </div>
 
                 <div className="glass-card" style={{ padding: '16px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: '#38bdf8', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Registered Users</span>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Registered Users</span>
                     <Users size={20} />
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#f8fafc' }}>
+                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                     {stats?.totalUsers || 0}
                   </div>
                 </div>
@@ -174,7 +183,7 @@ export default function AdminDashboardModal({ isOpen, onClose }) {
 
               {/* Action Toolbar */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700 }}>Live Orders Management</h3>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>Live Orders Management</h3>
                 <button
                   className="btn btn-primary"
                   style={{ fontSize: '0.85rem' }}
@@ -298,12 +307,12 @@ export default function AdminDashboardModal({ isOpen, onClose }) {
                           <span style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--primary)' }}>
                             {ord.orderID}
                           </span>
-                          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                            Customer: {ord.user?.email || 'Guest'}
+                          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                            Customer: <b>{ord.user?.email || 'Guest'}</b>
                           </span>
                         </div>
                         <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                          Total: <b>₹{ord.totalAmount}</b> ({ord.items.length} items) • {ord.paidThrough}
+                          Total: <b style={{ color: 'var(--text-primary)' }}>₹{ord.totalAmount}</b> ({ord.items?.length || 0} items) • {ord.paidThrough}
                         </span>
                       </div>
 
@@ -317,8 +326,8 @@ export default function AdminDashboardModal({ isOpen, onClose }) {
                             padding: '6px 12px',
                             fontSize: '0.85rem',
                             width: 'auto',
-                            background: '#07090e',
-                            color: ord.orderStatus === 'delivered' ? '#34d399' : '#fb923c',
+                            fontWeight: 700,
+                            color: ord.orderStatus === 'delivered' ? '#10b981' : '#f97316',
                             borderColor: 'var(--glass-border)'
                           }}
                         >
