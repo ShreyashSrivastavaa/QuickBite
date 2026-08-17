@@ -1,62 +1,51 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const User = require("../models/user");
 const userController = require("../controllers/userController");
 const { body } = require("express-validator");
 const auth = require("../middlewares/userAuth");
 
-// SIGNUP
+// User Signup
 router.post(
   "/signup",
   [
-    body("email")
-      .isEmail()
-      .withMessage("Please Enter a valid email ID")
-      .custom((value, req) => {
-        return User.findOne({ email: value }).then((userDoc) => {
-          if (userDoc) {
-            return Promise.reject("Email already Exist");
-          }
-        });
-      })
-      .normalizeEmail(),
+    body("email").isEmail().withMessage("Please enter a valid email address.").normalizeEmail(),
     body("password")
       .trim()
       .isLength({ min: 6 })
-      .withMessage("Your password whould have to atlest 6 Character long"),
+      .withMessage("Password must be at least 6 characters long."),
+    body("firstName").optional().trim(),
+    body("lastName").optional().trim(),
   ],
   userController.onSignup
 );
 
+// User Login
 router.post(
   "/login",
   [
-    body("email")
-      .isEmail()
-      .withMessage("Please Enter a valid email ID")
-      .normalizeEmail(),
-    body("password")
-      .trim()
-      .isLength({ min: 6 })
-      .withMessage("Please Enter a Valid Password!"),
+    body("email").isEmail().withMessage("Please enter a valid email address.").normalizeEmail(),
+    body("password").trim().notEmpty().withMessage("Password is required."),
   ],
   userController.onLogin
 );
 
-router.put("/cart/:id/:qty", auth, userController.editCart);
+// User Logout
+router.post("/logout", auth, userController.onLogout);
 
-router.post("/cart/:id", auth, userController.addToCart);
-
-router.get("/cart", auth, userController.getCart);
-
-router.get("/order", auth, userController.getOrder);
-
-router.get("/order/:id", auth, userController.getSelectedOrder);
-
-router.post("/add-order", auth, userController.addOrder);
-
+// User Profile
 router.get("/profile", auth, userController.viewProfile);
+router.put("/profile", auth, userController.updateProfile);
 
-router.post("/address", auth, userController.editAddress);
+// User Cart
+router.get("/cart", auth, userController.getCart);
+router.post("/cart/:id", auth, userController.addToCart);
+router.put("/cart/:id/:qty", auth, userController.editCart);
+router.delete("/cart/:id", auth, userController.removeFromCart);
+router.delete("/cart", auth, userController.clearCart);
+
+// User Orders
+router.get("/order", auth, userController.getOrder);
+router.get("/order/:id", auth, userController.getSelectedOrder);
+router.post("/add-order", auth, userController.addOrder);
 
 module.exports = router;

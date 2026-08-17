@@ -1,295 +1,449 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const AppError = require("./errorController");
-const { APP_KEY } = require("../config/AppConst");
+const { APP_KEY, JWT_EXPIRES_IN } = require("../config/AppConst");
 const { validationResult } = require("express-validator");
 
 const User = require("../models/user");
 const Food = require("../models/food");
 const Order = require("../models/order");
 
-exports.onSignup = (req, res, next) => {
-  const errors = validationResult(req);
+/**
+ * @route POST /user/signup
+ * @desc  Register new user
+ */
+exports.onSignup = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation Failed");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
 
-  if (!errors.isEmpty()) {
-    const err = new Error("Validation Erro");
-    err.statusCode = 422;
-    err.data = errors.array();
+    const { email, password, firstName, lastName, phone, address } = req.body;
+
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    if (existingUser) {
+      const err = new Error("User already exists with this email address.");
+      err.statusCode = 409;
+      return next(err);
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const user = new User({
+      email: email.toLowerCase(),
+      password: hashedPassword,
+      firstName: firstName || "",
+      lastName: lastName || "",
+      phone: phone || "",
+      address: address || "",
+      cart: [],
+      order: [],
+    });
+
+    const savedUser = await user.save();
+
+    const token = jwt.sign(
+      { userId: savedUser._id.toString(), email: savedUser.email, role: "user" },
+      APP_KEY,
+      { expiresIn: JWT_EXPIRES_IN || "7d" }
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "User registered successfully.",
+      token: token,
+      user: {
+        id: savedUser._id,
+        email: savedUser.email,
+        firstName: savedUser.firstName,
+        lastName: savedUser.lastName,
+        phone: savedUser.phone,
+        address: savedUser.address,
+      },
+    });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
     next(err);
-    return;
   }
-
-  let email = req.body.email;
-  let password = req.body.password;
-  let firstName = req.body.firstName;
-  let lastName = req.body.lastName;
-
-  bcrypt
-    .hash(password, 12)
-    .then((hashPassword) => {
-      const user = new User({
-        email: email,
-        password: hashPassword,
-        firstName: firstName,
-        lastName: lastName,
-        address: null,
-        phone: null,
-        lat: null,
-        lng: null,
-        cart: [],
-        order: [],
-      });
-
-      return user.save();
-    })
-    .then((user) => {
-      const token = jwt.sign(
-        { userId: user._id.toString(), email: user.email },
-        APP_KEY,
-        { expiresIn: "90d" }
-      );
-
-      res.status(200).json(token);
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-    });
 };
 
-exports.onForgotPassword = (req, res, next) => {};
+/**
+ * @route POST /user/login
+ * @desc  Authenticate user & return JWT
+ */
+exports.onLogin = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const err = new Error("Validation Failed");
+      err.statusCode = 422;
+      err.data = errors.array();
+      return next(err);
+    }
 
-exports.onLogin = (req, res, next) => {
-  const errors = validationResult(req);
+    const { email, password } = req.body;
 
-  if (!errors.isEmpty()) {
-    const err = new Error("Validation Erro");
-    err.statusCode = 422;
-    err.data = errors.array();
-    throw err;
+    const user = await User.findOne({ email: email.toLowerCase() }).select("+password");
+    if (!user) {
+      const err = new Error("Invalid credentials: User does not exist.");
+      err.statusCode = 401;
+      return next(err);
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      const err = new Error("Invalid credentials: Password does not match.");
+      err.statusCode = 401;
+      return next(err);
+    }
+
+    const token = jwt.sign(
+      { userId: user._id.toString(), email: user.email, role: "user" },
+      APP_KEY,
+      { expiresIn: JWT_EXPIRES_IN || "7d" }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful.",
+      token: token,
+      user: {
+        id: user._id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phone: user.phone,
+        address: user.address,
+      },
+    });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
   }
-
-  let email = req.body.email;
-  let password = req.body.password;
-  let loginUser = null;
-  User.findOne({ email: email })
-    .then((user) => {
-      if (!user) {
-        const err = new Error("User Does not exist with the provided email ID");
-        err.statusCode = 401;
-        throw err;
-      }
-      loginUser = user;
-      return bcrypt.compare(password, user.password);
-    })
-    .then((result) => {
-      if (!result) {
-        const err = new Error("Passwod does not match!");
-        err.statusCode = 401;
-        throw err;
-      }
-
-      const token = jwt.sign(
-        { userId: loginUser._id.toString(), email: loginUser.email },
-        APP_KEY,
-        { expiresIn: "90d" }
-      );
-
-      res.status(200).json(token);
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-    });
 };
 
-exports.getCart = (req, res, next) => {
-  const userId = req.userId;
-
-  User.findById(userId)
-    .populate("cart.food")
-    .then((user) => {
-      res.status(200).json(user.cart);
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-    });
+/**
+ * @route POST /user/logout
+ * @desc  Logout user (client invalidates token)
+ */
+exports.onLogout = (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Logged out successfully. Please remove token from client storage.",
+  });
 };
 
-exports.addToCart = (req, res, next) => {
-  const userId = req.userId;
-  const foodId = req.params.id;
-
-  console.log("Going through");
-
-  let currentUser;
-  User.findById(userId)
-    .populate("cart.food")
-    .then((user) => {
-      currentUser = user;
-      return Food.findById(foodId);
-    })
-    .then((food) => {
-      return currentUser.addToCart(food);
-    })
-    .then((result) => {
-      res.status(200).json(result.cart);
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
+/**
+ * @route GET /user/profile
+ * @desc  Get user profile
+ */
+exports.viewProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      const err = new Error("User profile not found.");
+      err.statusCode = 404;
+      return next(err);
+    }
+    res.status(200).json({
+      success: true,
+      user: user,
     });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
 };
 
-exports.editCart = (req, res, next) => {
-  const userId = req.userId;
-  const foodId = req.params.id;
-  const qty = req.params.qty;
+/**
+ * @route PUT /user/profile
+ * @desc  Update user profile
+ */
+exports.updateProfile = async (req, res, next) => {
+  try {
+    const { firstName, lastName, address, phone, lat, lng } = req.body;
+    const user = await User.findById(req.userId);
 
-  let currentUser;
-  User.findById(userId)
-    .populate("cart.food")
-    .then((user) => {
-      currentUser = user;
-      return Food.findById(foodId);
-    })
-    .then((food) => {
-      return currentUser.editCart(food, qty);
-    })
-    .then((result) => {
-      res.status(200).json(result.cart);
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
+    if (!user) {
+      const err = new Error("User not found.");
+      err.statusCode = 404;
+      return next(err);
+    }
+
+    if (firstName !== undefined) user.firstName = firstName;
+    if (lastName !== undefined) user.lastName = lastName;
+    if (address !== undefined) user.address = address;
+    if (phone !== undefined) user.phone = phone;
+    if (lat !== undefined) user.lat = lat;
+    if (lng !== undefined) user.lng = lng;
+
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully.",
+      user: updatedUser,
     });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
 };
 
-exports.getOrder = (req, res, next) => {
-  const userId = req.userId;
-
-  User.findById(userId)
-    .populate("order")
-    .then((user) => {
-      res.status(200).json(user.order);
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
+/**
+ * @route GET /user/cart
+ * @desc  Get user cart
+ */
+exports.getCart = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId).populate("cart.food");
+    if (!user) {
+      const err = new Error("User not found.");
+      err.statusCode = 404;
+      return next(err);
+    }
+    res.status(200).json({
+      success: true,
+      cart: user.cart,
     });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
 };
 
-exports.getSelectedOrder = (req, res, next) => {
-  const orderId = req.params.id;
+/**
+ * @route POST /user/cart/:id
+ * @desc  Add food to cart
+ */
+exports.addToCart = async (req, res, next) => {
+  try {
+    const foodId = req.params.id;
+    const food = await Food.findById(foodId);
+    if (!food) {
+      const err = new Error("Food item not found.");
+      err.statusCode = 404;
+      return next(err);
+    }
 
-  Order.findById(orderId)
-    .populate("items")
-    .then((order) => {
-      res.status(200).json(order);
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
+    const user = await User.findById(req.userId);
+    if (!user) {
+      const err = new Error("User not found.");
+      err.statusCode = 404;
+      return next(err);
+    }
+
+    await user.addToCart(food);
+    const updatedUser = await User.findById(req.userId).populate("cart.food");
+
+    res.status(200).json({
+      success: true,
+      message: "Item added to cart.",
+      cart: updatedUser.cart,
     });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
 };
 
-exports.addOrder = (req, res, next) => {
-  const userId = req.userId;
-  const orderId = `${Math.floor(Math.random() * 89999 + 1000)}`;
-  let currentUser;
-  let total = 0;
-  User.findById(userId)
-    .populate("order")
-    .populate("cart.food")
-    .then((user) => {
-      currentUser = user;
-      let orderedItems = [];
-      user.cart.map((item) => {
-        let qty = item.qty;
-        let price = item.food.price;
-        total += qty * price;
-        orderedItems.push(item.food);
-      });
+/**
+ * @route PUT /user/cart/:id/:qty
+ * @desc  Update quantity of item in cart
+ */
+exports.editCart = async (req, res, next) => {
+  try {
+    const foodId = req.params.id;
+    const qty = req.params.qty;
+    const food = await Food.findById(foodId);
+    if (!food) {
+      const err = new Error("Food item not found.");
+      err.statusCode = 404;
+      return next(err);
+    }
 
-      let order = new Order({
-        orderID: orderId,
-        items: orderedItems,
-        totalAmount: total,
-        orderDate: new Date(),
-        paidThrough: "",
-        paymentResponse: "",
-        orderStatus: "waiting",
-      });
-      return order.save();
-    })
-    .then((order) => {
-      currentUser.order.push(order);
-      currentUser.cart = [];
-      return currentUser.save();
-    })
-    .then((result) => res.status(200).json(result.order))
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
+    const user = await User.findById(req.userId);
+    if (!user) {
+      const err = new Error("User not found.");
+      err.statusCode = 404;
+      return next(err);
+    }
+
+    await user.editCart(food, qty);
+    const updatedUser = await User.findById(req.userId).populate("cart.food");
+
+    res.status(200).json({
+      success: true,
+      message: "Cart updated.",
+      cart: updatedUser.cart,
     });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
 };
 
-exports.viewProfile = (req, res, next) => {
-  const userId = req.userId;
+/**
+ * @route DELETE /user/cart/:id
+ * @desc  Remove item from cart
+ */
+exports.removeFromCart = async (req, res, next) => {
+  try {
+    const foodId = req.params.id;
+    const user = await User.findById(req.userId);
+    if (!user) {
+      const err = new Error("User not found.");
+      err.statusCode = 404;
+      return next(err);
+    }
 
-  User.findById(userId)
-    .select("-password")
-    .then((user) => {
-      res.status(200).json(user);
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
+    user.cart = user.cart.filter((item) => item.food.toString() !== foodId);
+    await user.save();
+    const updatedUser = await User.findById(req.userId).populate("cart.food");
+
+    res.status(200).json({
+      success: true,
+      message: "Item removed from cart.",
+      cart: updatedUser.cart,
     });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
 };
 
-exports.editAddress = (req, res, next) => {
-  const userId = req.userId;
-  const address = req.body.address;
-  const lat = req.body.lat;
-  const lng = req.body.lng;
-  const phone = req.body.phone;
+/**
+ * @route DELETE /user/cart
+ * @desc  Clear entire cart
+ */
+exports.clearCart = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      const err = new Error("User not found.");
+      err.statusCode = 404;
+      return next(err);
+    }
 
-  User.findById(userId)
-    .select("-password")
-    .then((user) => {
-      user.address = address;
-      user.phone = phone;
-      user.lat = lat;
-      user.lng = lng;
-      return user.save();
-    })
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((err) => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
+    user.cart = [];
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Cart cleared.",
+      cart: [],
     });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
+
+/**
+ * @route GET /user/order
+ * @desc  Get user order history
+ */
+exports.getOrder = async (req, res, next) => {
+  try {
+    const orders = await Order.find({ user: req.userId }).populate("items.food").sort({ createdAt: -1 });
+    res.status(200).json({
+      success: true,
+      orders: orders,
+    });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
+
+/**
+ * @route GET /user/order/:id
+ * @desc  Get details of a specific order
+ */
+exports.getSelectedOrder = async (req, res, next) => {
+  try {
+    const orderId = req.params.id;
+    const order = await Order.findOne({ _id: orderId, user: req.userId }).populate("items.food");
+
+    if (!order) {
+      const err = new Error("Order not found or unauthorized.");
+      err.statusCode = 404;
+      return next(err);
+    }
+
+    res.status(200).json({
+      success: true,
+      order: order,
+    });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
+
+/**
+ * @route POST /user/add-order
+ * @desc  Create order from current cart
+ */
+exports.addOrder = async (req, res, next) => {
+  try {
+    const { paidThrough, deliveryAddress, phone } = req.body;
+    const user = await User.findById(req.userId).populate("cart.food");
+
+    if (!user) {
+      const err = new Error("User not found.");
+      err.statusCode = 404;
+      return next(err);
+    }
+
+    if (!user.cart || user.cart.length === 0) {
+      const err = new Error("Cart is empty. Cannot create an order.");
+      err.statusCode = 400;
+      return next(err);
+    }
+
+    let totalAmount = 0;
+    const orderItems = user.cart.map((item) => {
+      const price = item.food.price || 0;
+      const qty = item.qty || 1;
+      totalAmount += price * qty;
+      return {
+        food: item.food._id,
+        name: item.food.name,
+        price: price,
+        qty: qty,
+      };
+    });
+
+    const uniqueOrderId = `QB-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    const order = new Order({
+      orderID: uniqueOrderId,
+      user: user._id,
+      items: orderItems,
+      totalAmount: totalAmount,
+      paidThrough: paidThrough || "COD",
+      orderStatus: "pending",
+      deliveryAddress: deliveryAddress || user.address || "",
+      phone: phone || user.phone || "",
+    });
+
+    const savedOrder = await order.save();
+
+    user.order.push(savedOrder._id);
+    user.cart = [];
+    await user.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Order placed successfully.",
+      order: savedOrder,
+    });
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
 };

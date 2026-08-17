@@ -5,11 +5,14 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "seed": "node seed.js",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:all": "node app.js & cd frontend && npm run dev"
   },
   "engines": {
-    "node": "12.16.1",
-    "npm": "6.13.4"
+    "node": ">=18.0.0"
   },
   "keywords": [
     "Food",
@@ -17,18 +20,20 @@
     "App",
     "Backend"
   ],
-  "author": "Shreyash<shreyashsr2004@gmail.com>",
+  "author": "Shreyash Srivastava (upscaletechsolution) <upscaletechsolution@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.0",
     "express": "^4.17.1",
+    "express-rate-limit": "^8.6.2",
     "express-validator": "^6.4.1",
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.7",
+    "mongoose": "^7.8.12",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.3"
   }

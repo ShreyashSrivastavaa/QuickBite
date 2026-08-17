@@ -2,36 +2,60 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const orderSchema = new Schema({
-  orderID: {
-    type: String,
-    required: true,
-  },
-  items: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Food",
+const orderSchema = new Schema(
+  {
+    orderID: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
     },
-  ],
-  totalAmount: {
-    type: Number,
-    required: true,
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
+    items: [
+      {
+        food: {
+          type: Schema.Types.ObjectId,
+          ref: "Food",
+          required: true,
+        },
+        name: { type: String },
+        price: { type: Number, required: true },
+        qty: { type: Number, required: true, default: 1 },
+      },
+    ],
+    totalAmount: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    paidThrough: {
+      type: String,
+      enum: ["COD", "CARD", "NET_BANKING", "UPI", "WALLET", ""],
+      default: "COD",
+    },
+    paymentResponse: {
+      type: String,
+      default: "",
+    },
+    orderStatus: {
+      type: String,
+      enum: ["pending", "confirmed", "preparing", "shipped", "delivered", "cancelled"],
+      default: "pending",
+      index: true,
+    },
+    deliveryAddress: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
   },
-  orderDate: {
-    type: Date,
-  },
-  paidThrough: {
-    // COD// CARD // Net Banking // Google Pay
-    type: String,
-  },
-  paymentResponse: {
-    // Bank or PG response with Transaction number Log for refund or enquiry
-    type: String,
-  },
-  orderStatus: {
-    // waiting // preparing // onway // delivered // cancelled // failed
-    type: String,
-  },
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Order", orderSchema);
