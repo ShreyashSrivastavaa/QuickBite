@@ -3,7 +3,7 @@ services:
     name: quickbite-fullstack
     env: node
     plan: free
-    buildCommand: "npm install && npm run seed && cd frontend && npm install && npm run build && cd .."
+    buildCommand: "npm install && npm run seed && cd frontend && npm install --include=dev && npm run build && cd .."
     startCommand: "node app.js"
     envVars:
       - key: PORT
