@@ -63,17 +63,18 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
           style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
-          <div style={{
-            background: 'linear-gradient(135deg, #10b981, #f97316)',
-            padding: '10px',
-            borderRadius: '14px',
-            display: 'flex',
-            alignItems: 'center',
-            justify: 'center',
-            boxShadow: '0 4px 18px rgba(16, 185, 129, 0.4)'
-          }}>
-            <UtensilsCrossed size={24} color="#ffffff" />
-          </div>
+          <img
+            src="/logo.png"
+            alt="QuickBite Logo"
+            style={{
+              width: '44px',
+              height: '44px',
+              borderRadius: '12px',
+              objectFit: 'cover',
+              boxShadow: '0 4px 18px rgba(16, 185, 129, 0.4)',
+              border: '1px solid var(--glass-border)'
+            }}
+          />
           <div>
             <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
               Quick<span style={{ color: 'var(--primary)' }}>Bite</span>
