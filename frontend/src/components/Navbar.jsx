@@ -97,9 +97,9 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
             {theme === 'dark' ? <Sun size={20} color="#fbbf24" /> : <Moon size={20} color="#6366f1" />}
           </button>
 
-          {/* Admin Console Button (ONLY visible when authenticated as Admin) */}
+          {/* Admin Console Toggle Button (ONLY visible when authenticated as Admin) */}
           {admin && (
-            <button className="btn btn-ghost" onClick={onOpenAdmin} style={{ color: '#fb923c', border: '1px solid rgba(249, 115, 22, 0.4)' }}>
+            <button className="btn btn-ghost" onClick={onOpenAdmin} style={{ color: '#f97316', border: '1px solid rgba(249, 115, 22, 0.4)' }}>
               <ShieldCheck size={18} />
               <span>Admin Console</span>
             </button>
@@ -113,8 +113,17 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
             </button>
           )}
 
-          {/* Auth Button */}
-          {user ? (
+          {/* Authentication State Controls */}
+          {admin ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '0.9rem', color: '#f97316', fontWeight: 700 }}>
+                Admin ({admin.name || 'Manager'})
+              </span>
+              <button className="btn btn-ghost btn-icon" onClick={logoutAdmin} title="Logout Admin" style={{ color: '#ef4444' }}>
+                <LogOut size={18} />
+              </button>
+            </div>
+          ) : user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 600 }}>
                 Namaste, {user.firstName || 'Foodie'}
