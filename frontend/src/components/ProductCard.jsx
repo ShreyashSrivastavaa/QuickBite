@@ -1,13 +1,14 @@
 import React from 'react';
-import { Star, Clock, Plus, Check } from 'lucide-react';
+import { Star, Clock, Plus, Minus } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 const DEFAULT_FOOD_IMAGE = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80';
 
 export default function ProductCard({ food }) {
-  const { addToCart, cart } = useCart();
+  const { addToCart, updateQuantity, cart } = useCart();
 
-  const isAdded = cart.some((item) => item.food._id === food._id);
+  const cartItem = cart.find((item) => item.food._id === food._id);
+  const qty = cartItem ? cartItem.qty : 0;
 
   const imageUrl = food.images && food.images.length > 0 ? food.images[0] : DEFAULT_FOOD_IMAGE;
   const ratingVal = food.rating?.rate || 4.8;
@@ -43,7 +44,8 @@ export default function ProductCard({ food }) {
             top: '12px',
             left: '12px',
             backdropFilter: 'blur(10px)',
-            background: 'rgba(7, 9, 14, 0.85)'
+            background: 'rgba(7, 9, 14, 0.85)',
+            color: '#34d399'
           }}
         >
           {food.category}
@@ -57,12 +59,34 @@ export default function ProductCard({ food }) {
             top: '12px',
             right: '12px',
             backdropFilter: 'blur(10px)',
-            background: 'rgba(7, 9, 14, 0.85)'
+            background: 'rgba(7, 9, 14, 0.85)',
+            color: '#fbbf24'
           }}
         >
           <Star size={12} fill="#fbbf24" color="#fbbf24" />
           {ratingVal.toFixed(1)}
         </span>
+
+        {/* Item Added Quantity Badge on Top Right */}
+        {qty > 0 && (
+          <div style={{
+            position: 'absolute',
+            bottom: '12px',
+            right: '12px',
+            background: 'linear-gradient(135deg, #10b981, #059669)',
+            color: '#ffffff',
+            fontSize: '0.75rem',
+            fontWeight: 800,
+            padding: '4px 10px',
+            borderRadius: 'var(--radius-full)',
+            boxShadow: '0 4px 12px rgba(16, 185, 129, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px'
+          }}>
+            <span>{qty} in Cart</span>
+          </div>
+        )}
       </div>
 
       {/* Food Details */}
@@ -103,31 +127,73 @@ export default function ProductCard({ food }) {
             </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
               <Clock size={14} color="#34d399" />
               <span>{readyTime}m</span>
             </div>
 
-            <button
-              className={`btn ${isAdded ? 'btn-ghost' : 'btn-primary'}`}
-              onClick={() => addToCart(food)}
-              style={{
-                padding: '8px 16px',
-                fontSize: '0.85rem',
-                ...(isAdded && { borderColor: 'var(--primary)', color: 'var(--primary)' })
-              }}
-            >
-              {isAdded ? (
-                <>
-                  <Check size={14} /> Added
-                </>
-              ) : (
-                <>
-                  <Plus size={14} /> Add
-                </>
-              )}
-            </button>
+            {/* Interactive Quantity Stepper */}
+            {qty > 0 ? (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(16, 185, 129, 0.15)',
+                border: '1px solid rgba(16, 185, 129, 0.4)',
+                borderRadius: '8px',
+                padding: '4px 8px'
+              }}>
+                <button
+                  onClick={() => updateQuantity(food._id, qty - 1)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--primary)',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '2px'
+                  }}
+                  title="Reduce Quantity"
+                >
+                  <Minus size={14} />
+                </button>
+
+                <span style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--primary)', minWidth: '16px', textAlign: 'center' }}>
+                  {qty}
+                </span>
+
+                <button
+                  onClick={() => addToCart(food)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--primary)',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justify: 'center',
+                    padding: '2px'
+                  }}
+                  title="Add More"
+                >
+                  <Plus size={14} />
+                </button>
+              </div>
+            ) : (
+              <button
+                className="btn btn-primary"
+                onClick={() => addToCart(food)}
+                style={{
+                  padding: '8px 16px',
+                  fontSize: '0.85rem'
+                }}
+              >
+                <Plus size={14} /> Add
+              </button>
+            )}
           </div>
         </div>
       </div>

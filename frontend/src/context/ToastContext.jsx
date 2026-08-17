@@ -50,7 +50,7 @@ export const ToastProvider = ({ children }) => {
               {toast.type === 'success' && <CheckCircle2 size={20} color="#10b981" />}
               {toast.type === 'error' && <AlertCircle size={20} color="#ef4444" />}
               {toast.type === 'warning' && <Info size={20} color="#f59e0b" />}
-              <span style={{ fontSize: '0.9rem', color: '#f8fafc', fontWeight: 500 }}>{toast.message}</span>
+              <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: 600 }}>{toast.message}</span>
             </div>
             <button
               onClick={() => removeToast(toast.id)}
