@@ -32,17 +32,18 @@ export default function CartDrawer({ onOpenCheckout }) {
       onClick={() => setIsCartOpen(false)}
     >
       <div
-        className="modal-content"
+        className="cart-drawer-panel"
         style={{
           width: '100%',
           maxWidth: '440px',
-          height: '100%',
-          borderRadius: 0,
+          height: '100vh',
+          maxHeight: '100vh',
+          backgroundColor: '#0d121d',
+          borderLeft: '1px solid var(--glass-border)',
           display: 'flex',
           flexDirection: 'column',
           boxShadow: '-10px 0 50px rgba(0, 0, 0, 0.7)',
-          animation: 'slideLeft 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-          borderLeft: '1px solid var(--glass-border)'
+          animation: 'slideLeft 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -109,7 +110,7 @@ export default function CartDrawer({ onOpenCheckout }) {
                       {item.qty}
                     </span>
                     <button
-                      onClick={() => updateQuantity(item.food._id, item.qty + 1)}
+                      onClick={() => addToCart(item.food)}
                       style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', display: 'flex' }}
                     >
                       <Plus size={14} />
@@ -133,7 +134,8 @@ export default function CartDrawer({ onOpenCheckout }) {
           <div style={{
             padding: '24px',
             borderTop: '1px solid var(--glass-border)',
-            background: 'var(--bg-card)'
+            background: 'var(--bg-card)',
+            marginTop: 'auto'
           }}>
             {/* Free Delivery Indicator */}
             {subtotal < 499 ? (
