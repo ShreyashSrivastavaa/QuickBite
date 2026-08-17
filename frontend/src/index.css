@@ -368,5 +368,67 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: var(--primary);
+}
+
+/* Category Horizontal Scroll utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Mobile & Tablet Responsive Media Queries */
+@media (max-width: 768px) {
+  .glass-header {
+    padding: 12px 16px !important;
+  }
+
+  .modal-overlay {
+    padding: 12px !important;
+  }
+
+  .modal-content {
+    width: 96% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    border-radius: 16px !important;
+    margin: auto !important;
+  }
+
+  .cart-drawer-panel {
+    max-width: 100% !important;
+  }
+
+  .hero-floating-badge {
+    position: static !important;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .btn {
+    padding: 8px 12px !important;
+    font-size: 0.82rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .glass-header {
+    padding: 10px 12px !important;
+  }
+
+  .header-brand-sub {
+    display: none !important;
+  }
+
+  .header-user-name {
+    display: none !important;
+  }
+
+  .input-field {
+    padding: 10px 14px !important;
+    font-size: 0.9rem !important;
+  }
 }

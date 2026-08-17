@@ -215,13 +215,15 @@ export default function HeroBanner({
         </div>
       </div>
 
-      {/* Category Pills Bar */}
-      <div style={{
+      {/* Category Pills Bar (Horizontally Scrollable on Mobile) */}
+      <div className="no-scrollbar" style={{
         display: 'flex',
         alignItems: 'center',
-        justify: 'center',
-        flexWrap: 'wrap',
-        gap: '10px'
+        gap: '8px',
+        overflowX: 'auto',
+        padding: '6px 4px',
+        margin: '0 -10px',
+        scrollBehavior: 'smooth'
       }}>
         <button
           className={`btn ${selectedCategory === '' && !inThirtyMinOnly ? 'btn-primary' : 'btn-ghost'}`}
@@ -229,7 +231,7 @@ export default function HeroBanner({
             setSelectedCategory('');
             setInThirtyMinOnly(false);
           }}
-          style={{ borderRadius: 'var(--radius-full)' }}
+          style={{ borderRadius: 'var(--radius-full)', flexShrink: 0 }}
         >
           <Compass size={16} />
           <span>All Menu</span>
@@ -241,7 +243,7 @@ export default function HeroBanner({
             setInThirtyMinOnly(!inThirtyMinOnly);
             setSelectedCategory('');
           }}
-          style={{ borderRadius: 'var(--radius-full)' }}
+          style={{ borderRadius: 'var(--radius-full)', flexShrink: 0 }}
         >
           <Zap size={16} />
           <span>⚡ Under 30 Mins</span>
@@ -255,7 +257,7 @@ export default function HeroBanner({
               setSelectedCategory(cat);
               setInThirtyMinOnly(false);
             }}
-            style={{ borderRadius: 'var(--radius-full)' }}
+            style={{ borderRadius: 'var(--radius-full)', flexShrink: 0 }}
           >
             <span>{cat}</span>
           </button>
