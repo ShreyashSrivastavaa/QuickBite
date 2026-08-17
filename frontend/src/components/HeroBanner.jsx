@@ -34,7 +34,7 @@ export default function HeroBanner({
             fontWeight: 700,
             lineHeight: 1.1,
             marginBottom: '20px',
-            color: '#f8fafc'
+            color: 'var(--text-primary)'
           }}>
             Artisanal Culinary <br />
             <span style={{
@@ -82,9 +82,8 @@ export default function HeroBanner({
                 paddingLeft: '54px',
                 height: '56px',
                 borderRadius: 'var(--radius-full)',
-                background: 'rgba(15, 21, 34, 0.9)',
                 fontSize: '1rem',
-                boxShadow: '0 10px 35px rgba(0, 0, 0, 0.4)'
+                boxShadow: '0 10px 35px rgba(0, 0, 0, 0.15)'
               }}
             />
           </div>
@@ -99,7 +98,7 @@ export default function HeroBanner({
             width: '100%',
             maxWidth: '460px',
             position: 'relative',
-            boxShadow: '0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(16, 185, 129, 0.2)'
+            boxShadow: '0 25px 60px rgba(0, 0, 0, 0.3), 0 0 30px rgba(16, 185, 129, 0.2)'
           }}>
             <img
               src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80"
@@ -109,7 +108,7 @@ export default function HeroBanner({
             <div style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(180deg, transparent 40%, rgba(7, 9, 14, 0.95) 100%)'
+              background: 'linear-gradient(180deg, transparent 40%, rgba(7, 9, 14, 0.85) 100%)'
             }} />
             <div style={{ position: 'absolute', bottom: '20px', left: '24px', right: '24px' }}>
               <span className="badge badge-gold" style={{ marginBottom: '8px' }}>
@@ -134,13 +133,13 @@ export default function HeroBanner({
             display: 'flex',
             alignItems: 'center',
             gap: '12px',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+            boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
           }}>
             <div style={{ background: 'rgba(245, 158, 11, 0.2)', padding: '8px', borderRadius: '10px' }}>
               <Star size={20} color="#fbbf24" fill="#fbbf24" />
             </div>
             <div>
-              <strong style={{ fontSize: '1rem', color: '#ffffff', display: 'block' }}>4.9 / 5.0</strong>
+              <strong style={{ fontSize: '1rem', color: 'var(--text-primary)', display: 'block' }}>4.9 / 5.0</strong>
               <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>Over 15,000+ Reviews</span>
             </div>
           </div>
@@ -155,13 +154,13 @@ export default function HeroBanner({
             display: 'flex',
             alignItems: 'center',
             gap: '12px',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+            boxShadow: '0 10px 30px rgba(0,0,0,0.15)'
           }}>
             <div style={{ background: 'rgba(16, 185, 129, 0.2)', padding: '8px', borderRadius: '10px' }}>
               <Zap size={20} color="#34d399" />
             </div>
             <div>
-              <strong style={{ fontSize: '1rem', color: '#ffffff', display: 'block' }}>20 Mins Avg</strong>
+              <strong style={{ fontSize: '1rem', color: 'var(--text-primary)', display: 'block' }}>20 Mins Avg</strong>
               <span style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>Express Kitchen Prep</span>
             </div>
           </div>
@@ -180,7 +179,7 @@ export default function HeroBanner({
             <Zap size={24} />
           </div>
           <div>
-            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#f8fafc' }}>Express 30-Min</h4>
+            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)' }}>Express 30-Min</h4>
             <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Piping hot delivery</span>
           </div>
         </div>
@@ -190,7 +189,7 @@ export default function HeroBanner({
             <Award size={24} />
           </div>
           <div>
-            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#f8fafc' }}>100% Authentic</h4>
+            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)' }}>100% Authentic</h4>
             <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Artisanal ingredients</span>
           </div>
         </div>
@@ -200,7 +199,7 @@ export default function HeroBanner({
             <ShieldCheck size={24} />
           </div>
           <div>
-            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#f8fafc' }}>Hygienic Sealed</h4>
+            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)' }}>Hygienic Sealed</h4>
             <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Safety-first packing</span>
           </div>
         </div>
@@ -210,7 +209,7 @@ export default function HeroBanner({
             <HeartHandshake size={24} />
           </div>
           <div>
-            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: '#f8fafc' }}>COD & Instant UPI</h4>
+            <h4 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)' }}>COD & Instant UPI</h4>
             <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Flexible checkout</span>
           </div>
         </div>

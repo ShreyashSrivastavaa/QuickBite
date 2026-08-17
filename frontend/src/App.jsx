@@ -119,7 +119,7 @@ function MainApp() {
       <main style={{ flex: 1, maxWidth: '1240px', width: '100%', margin: '0 auto', padding: '0 24px 60px 24px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
           <div>
-            <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 700, color: '#f8fafc' }}>
+            <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--text-primary)' }}>
               {searchQuery
                 ? `Search Results for "${searchQuery}"`
                 : inThirtyMinOnly
@@ -145,7 +145,7 @@ function MainApp() {
           </div>
         ) : foods.length === 0 ? (
           <div className="glass-panel" style={{ textAlign: 'center', padding: '60px 20px', borderRadius: 'var(--radius-lg)' }}>
-            <h3 style={{ fontSize: '1.2rem', marginBottom: '8px', color: '#f8fafc' }}>No food items found</h3>
+            <h3 style={{ fontSize: '1.2rem', marginBottom: '8px', color: 'var(--text-primary)' }}>No food items found</h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '20px' }}>
               Try searching for a different keyword or browse all menu items.
             </p>
@@ -184,7 +184,7 @@ function MainApp() {
             <span className="badge badge-orange" style={{ marginBottom: '12px' }}>
               🔥 Weekend Gourmet Special
             </span>
-            <h3 className="font-serif" style={{ fontSize: '2.2rem', fontWeight: 700, marginBottom: '12px', color: '#ffffff' }}>
+            <h3 className="font-serif" style={{ fontSize: '2.2rem', fontWeight: 700, marginBottom: '12px', color: 'var(--text-primary)' }}>
               Get 15% OFF on Family Biryanis & Combos
             </h3>
             <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '24px', maxWidth: '480px' }}>
@@ -213,7 +213,7 @@ function MainApp() {
                 height: '240px',
                 objectFit: 'cover',
                 borderRadius: '16px',
-                boxShadow: '0 15px 35px rgba(0,0,0,0.5)'
+                boxShadow: '0 15px 35px rgba(0,0,0,0.3)'
               }}
             />
           </div>
@@ -224,7 +224,7 @@ function MainApp() {
           <span className="badge badge-gold" style={{ marginBottom: '12px' }}>
             💬 Customer Testimonials
           </span>
-          <h2 className="font-serif" style={{ fontSize: '2.4rem', fontWeight: 700, marginBottom: '12px', color: '#ffffff' }}>
+          <h2 className="font-serif" style={{ fontSize: '2.4rem', fontWeight: 700, marginBottom: '12px', color: 'var(--text-primary)' }}>
             Loved by Foodies Across India
           </h2>
           <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', maxWidth: '540px', margin: '0 auto 40px auto' }}>
@@ -238,15 +238,15 @@ function MainApp() {
                   <Star key={i} size={16} fill="#fbbf24" color="#fbbf24" />
                 ))}
               </div>
-              <p style={{ fontSize: '0.9rem', color: '#e2e8f0', marginBottom: '16px', fontStyle: 'italic' }}>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '16px', fontStyle: 'italic' }}>
                 "The Hyderabadi Dum Biryani arrived steaming hot in just 22 minutes! Authentic aroma, premium rice, and amazing flavor. Highly recommended!"
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg, #10b981, #059669)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
+                <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg, #10b981, #059669)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
                   AR
                 </div>
                 <div>
-                  <strong style={{ fontSize: '0.9rem', color: '#ffffff', display: 'block' }}>Aarav Roy</strong>
+                  <strong style={{ fontSize: '0.9rem', color: 'var(--text-primary)', display: 'block' }}>Aarav Roy</strong>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Verified Buyer • Noida</span>
                 </div>
               </div>
@@ -258,15 +258,15 @@ function MainApp() {
                   <Star key={i} size={16} fill="#fbbf24" color="#fbbf24" />
                 ))}
               </div>
-              <p style={{ fontSize: '0.9rem', color: '#e2e8f0', marginBottom: '16px', fontStyle: 'italic' }}>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '16px', fontStyle: 'italic' }}>
                 "Ordered the Wood-Fired Margherita Pizza & Chocolate Lava Cake. Best crust I've had in a long time. Packaging was 100% sealed and clean."
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #c2410c)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
+                <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #c2410c)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
                   PS
                 </div>
                 <div>
-                  <strong style={{ fontSize: '0.9rem', color: '#ffffff', display: 'block' }}>Priya Sharma</strong>
+                  <strong style={{ fontSize: '0.9rem', color: 'var(--text-primary)', display: 'block' }}>Priya Sharma</strong>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Verified Buyer • Delhi NCR</span>
                 </div>
               </div>
@@ -278,15 +278,15 @@ function MainApp() {
                   <Star key={i} size={16} fill="#fbbf24" color="#fbbf24" />
                 ))}
               </div>
-              <p style={{ fontSize: '0.9rem', color: '#e2e8f0', marginBottom: '16px', fontStyle: 'italic' }}>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '16px', fontStyle: 'italic' }}>
                 "Loved the instant UPI checkout option! Smooth experience from ordering to real-time status updates. QuickBite is my new go-to app."
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg, #38bdf8, #0284c7)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
+                <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg, #38bdf8, #0284c7)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
                   VK
                 </div>
                 <div>
-                  <strong style={{ fontSize: '0.9rem', color: '#ffffff', display: 'block' }}>Vikram Kapoor</strong>
+                  <strong style={{ fontSize: '0.9rem', color: 'var(--text-primary)', display: 'block' }}>Vikram Kapoor</strong>
                   <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Verified Buyer • Gurgaon</span>
                 </div>
               </div>
@@ -325,7 +325,7 @@ function MainApp() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
               <Utensils size={22} color="var(--primary)" />
-              <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '1.3rem', color: '#ffffff' }}>
+              <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '1.3rem', color: 'var(--text-primary)' }}>
                 Quick<span style={{ color: 'var(--primary)' }}>Bite</span>
               </span>
             </div>
@@ -335,7 +335,7 @@ function MainApp() {
           </div>
 
           <div>
-            <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#ffffff', marginBottom: '16px' }}>Quick Links</h4>
+            <h4 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '16px' }}>Quick Links</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
               <span style={{ cursor: 'pointer' }} onClick={() => setSelectedCategory('')}>Full Gourmet Menu</span>
               <span style={{ cursor: 'pointer' }} onClick={() => setInThirtyMinOnly(true)}>⚡ Express 30-Min Delivery</span>
@@ -345,7 +345,7 @@ function MainApp() {
           </div>
 
           <div>
-            <h4 style={{ fontSize: '1rem', fontWeight: 700, color: '#ffffff', marginBottom: '16px' }}>Support & Contact</h4>
+            <h4 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '16px' }}>Support & Contact</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
               <span>📧 Email: <a href="mailto:upscaletechsolution@gmail.com" style={{ color: 'var(--primary)', textDecoration: 'none' }}>upscaletechsolution@gmail.com</a></span>
               <span>🏢 Crafted by: <b>Shreyash Srivastava (upscaletechsolution)</b></span>
