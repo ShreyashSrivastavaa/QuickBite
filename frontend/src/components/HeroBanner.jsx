@@ -101,8 +101,8 @@ export default function HeroBanner({
             boxShadow: '0 20px 50px rgba(0, 0, 0, 0.25), 0 0 25px rgba(16, 185, 129, 0.15)'
           }}>
             <img
-              src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80"
-              alt="Gourmet Food Showcase"
+              src="/og-banner.png"
+              alt="Zymeal Gourmet Food Showcase"
               style={{ width: '100%', height: '280px', objectFit: 'cover' }}
             />
             <div style={{

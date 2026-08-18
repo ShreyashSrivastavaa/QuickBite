@@ -211,8 +211,8 @@ function MainApp() {
 
           <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
             <img
-              src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80"
-              alt="Gourmet Biryani Feast"
+              src="/og-banner.png"
+              alt="Zymeal Gourmet Biryani Feast"
               style={{
                 width: '100%',
                 maxWidth: '360px',
