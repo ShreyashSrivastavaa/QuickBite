@@ -8,7 +8,7 @@ const Restaurant = require("../models/restaurant");
 exports.getAvailableFoods = async (req, res, next) => {
   try {
     const page = Math.max(1, parseInt(req.query.page, 10) || 1);
-    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit, 10) || 20));
+    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit, 10) || 50));
     const category = req.query.category;
 
     const filter = { isAvailable: true };
