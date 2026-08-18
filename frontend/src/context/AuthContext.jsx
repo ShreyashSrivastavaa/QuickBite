@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('qb_token', newToken);
         setToken(newToken);
         setUser(newUser);
-        addToast('Account created successfully! Welcome to QuickBite.', 'success');
+        addToast('Account created successfully! Welcome to Zymeal.', 'success');
         return { success: true };
       }
     } catch (err) {

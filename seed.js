@@ -25,20 +25,40 @@ const seedDatabase = async () => {
 
     console.log("Cleared existing test collections.");
 
-    // Seed Admin
+    // Seed Admin Accounts
     const hashedAdminPassword = await bcrypt.hash("Admin@123456", 12);
-    const admin = new Admin({
+    const adminZymeal = new Admin({
+      email: "admin@zymeal.com",
+      password: hashedAdminPassword,
+      name: "Super Admin",
+      role: "admin",
+    });
+    await adminZymeal.save();
+
+    const adminQuickbite = new Admin({
       email: "admin@quickbite.com",
       password: hashedAdminPassword,
       name: "Super Admin",
       role: "admin",
     });
-    await admin.save();
-    console.log("Created default Admin account: admin@quickbite.com / Admin@123456");
+    await adminQuickbite.save();
+    console.log("Created default Admin accounts: admin@zymeal.com & admin@quickbite.com / Admin@123456");
 
-    // Seed Sample User
+    // Seed Sample User Accounts
     const hashedUserPassword = await bcrypt.hash("User@123456", 12);
-    const user = new User({
+    const userZymeal = new User({
+      email: "user@zymeal.com",
+      password: hashedUserPassword,
+      firstName: "Shreyash",
+      lastName: "Srivastava",
+      phone: "+91 9876543210",
+      address: "B-42, Cyber City, Sector 62, Noida, UP, 201309",
+      lat: 28.6273,
+      lng: 77.3725,
+    });
+    await userZymeal.save();
+
+    const userQuickbite = new User({
       email: "user@quickbite.com",
       password: hashedUserPassword,
       firstName: "Shreyash",
@@ -48,8 +68,8 @@ const seedDatabase = async () => {
       lat: 28.6273,
       lng: 77.3725,
     });
-    await user.save();
-    console.log("Created default User account: user@quickbite.com / User@123456");
+    await userQuickbite.save();
+    console.log("Created default User accounts: user@zymeal.com & user@quickbite.com / User@123456");
 
     // Seed Sample Restaurants & Foods in INR (₹)
     const restaurant1 = new Restaurant({

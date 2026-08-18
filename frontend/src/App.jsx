@@ -194,7 +194,7 @@ function MainApp() {
               Get 15% OFF on Family Biryanis & Combos
             </h3>
             <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', marginBottom: '24px', maxWidth: '480px' }}>
-              Use coupon promo code <b style={{ color: 'var(--primary)' }}>QUICKBITE</b> at checkout. Free express delivery included on all orders over ₹499.
+              Use coupon promo code <b style={{ color: 'var(--primary)' }}>ZYMEAL</b> at checkout. Free express delivery included on all orders over ₹499.
             </p>
             <button
               className="btn btn-accent glow-accent"
@@ -234,7 +234,7 @@ function MainApp() {
             Loved by Foodies Across India
           </h2>
           <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', maxWidth: '540px', margin: '0 auto 40px auto' }}>
-            Here is what our happy customers have to say about QuickBite express delivery and gourmet taste.
+            Here is what our happy customers have to say about Zymeal express delivery and gourmet taste.
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', textAlign: 'left' }}>
@@ -285,7 +285,7 @@ function MainApp() {
                 ))}
               </div>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '16px', fontStyle: 'italic' }}>
-                "Loved the instant UPI checkout option! Smooth experience from ordering to real-time status updates. QuickBite is my new go-to app."
+                "Loved the instant UPI checkout option! Smooth experience from ordering to real-time status updates. Zymeal is my new go-to app."
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg, #38bdf8, #0284c7)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
@@ -342,7 +342,7 @@ function MainApp() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
               <Utensils size={22} color="var(--primary)" />
               <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '1.3rem', color: 'var(--text-primary)' }}>
-                Quick<span style={{ color: 'var(--primary)' }}>Bite</span>
+                Zy<span style={{ color: 'var(--primary)' }}>meal</span>
               </span>
             </div>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
@@ -371,7 +371,7 @@ function MainApp() {
         </div>
 
         <div style={{ textAlign: 'center', paddingTop: '24px', borderTop: '1px solid var(--glass-border)', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-          © {new Date().getFullYear()} <b>QuickBite India</b> • Designed & Developed with ❤️ by <b>Shreyash Srivastava (upscaletechsolution)</b>
+          © {new Date().getFullYear()} <b>Zymeal India</b> • Designed & Developed with ❤️ by <b>Shreyash Srivastava (upscaletechsolution)</b>
         </div>
       </footer>
     </div>

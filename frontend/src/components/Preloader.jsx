@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Sparkles, UtensilsCrossed } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 export default function Preloader({ onFinish }) {
   const [fade, setFade] = useState(false);
@@ -77,7 +77,7 @@ export default function Preloader({ onFinish }) {
         }}>
           <img
             src="/logo.png"
-            alt="QuickBite Logo"
+            alt="Zymeal Logo"
             style={{
               width: '64px',
               height: '64px',
@@ -96,7 +96,7 @@ export default function Preloader({ onFinish }) {
             letterSpacing: '-0.03em',
             margin: 0
           }}>
-            Quick<span style={{ color: '#10b981' }}>Bite</span>
+            Zy<span style={{ color: '#10b981' }}>meal</span>
           </h2>
           <div style={{
             fontSize: '0.72rem',
@@ -107,7 +107,7 @@ export default function Preloader({ onFinish }) {
             marginTop: '4px',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justify: 'center',
             gap: '6px'
           }}>
             <Sparkles size={12} color="#f97316" />
@@ -140,7 +140,7 @@ export default function Preloader({ onFinish }) {
           margin: 0,
           fontWeight: 500
         }}>
-          Preparing your culinary experience...
+          Preparing your Zymeal culinary experience...
         </p>
       </div>
     </div>

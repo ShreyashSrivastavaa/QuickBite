@@ -114,7 +114,7 @@ export default function AdminDashboardModal({ isOpen, onClose, onFoodCreated }) 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <ShieldCheck size={24} color="#f97316" />
             <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              QuickBite Admin Console • Live
+              Zymeal Admin Console • Live
             </h2>
             <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>⚡ Real-Time Sync</span>
           </div>

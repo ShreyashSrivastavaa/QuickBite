@@ -28,7 +28,7 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <Sparkles size={13} />
-            <span>⚡ Express 30-Min Delivery | Code <b style={{ background: 'rgba(0,0,0,0.25)', padding: '1px 5px', borderRadius: '4px' }}>QUICKBITE</b> for 15% OFF</span>
+            <span>⚡ Express 30-Min Delivery | Code <b style={{ background: 'rgba(0,0,0,0.25)', padding: '1px 5px', borderRadius: '4px' }}>ZYMEAL</b> for 15% OFF</span>
           </div>
           <button
             onClick={() => setShowAnnouncement(false)}
@@ -65,7 +65,7 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
         >
           <img
             src="/logo.png"
-            alt="QuickBite Logo"
+            alt="Zymeal Logo"
             style={{
               width: '36px',
               height: '36px',
@@ -76,8 +76,8 @@ export default function Navbar({ onOpenAuth, onOpenOrders, onOpenAdmin, theme, t
             }}
           />
           <div>
-            <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 900, fontSize: '1.25rem', color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
-              Quick<span style={{ color: 'var(--primary)' }}>Bite</span>
+            <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
+              Zy<span style={{ color: 'var(--primary)' }}>meal</span>
             </span>
             <span className="hide-mobile" style={{ display: 'block', fontSize: '0.6rem', color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700 }}>
               Gourmet Kitchens • India

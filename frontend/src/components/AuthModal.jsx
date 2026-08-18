@@ -59,12 +59,12 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
   };
 
   const fillDemoUser = () => {
-    setLoginEmail('user@quickbite.com');
+    setLoginEmail('user@zymeal.com');
     setLoginPassword('User@123456');
   };
 
   const fillDemoAdmin = () => {
-    setAdminEmail('admin@quickbite.com');
+    setAdminEmail('admin@zymeal.com');
     setAdminPassword('Admin@123456');
   };
 
@@ -139,7 +139,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                 <input
                   type="email"
                   className="input-field"
-                  placeholder="user@quickbite.com"
+                  placeholder="user@zymeal.com"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   required
@@ -172,7 +172,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
               </button>
 
               <p style={{ marginTop: '14px', fontSize: '0.82rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
-                Demo Account: <b>user@quickbite.com</b> / <b>User@123456</b>
+                Demo Account: <b>user@zymeal.com</b> / <b>User@123456</b>
               </p>
             </form>
           )}
@@ -255,7 +255,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
                 <input
                   type="email"
                   className="input-field"
-                  placeholder="admin@quickbite.com"
+                  placeholder="admin@zymeal.com"
                   value={adminEmail}
                   onChange={(e) => setAdminEmail(e.target.value)}
                   required
@@ -288,7 +288,7 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
               </button>
 
               <p style={{ marginTop: '14px', fontSize: '0.82rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
-                Demo Admin: <b>admin@quickbite.com</b> / <b>Admin@123456</b>
+                Demo Admin: <b>admin@zymeal.com</b> / <b>Admin@123456</b>
               </p>
             </form>
           )}
