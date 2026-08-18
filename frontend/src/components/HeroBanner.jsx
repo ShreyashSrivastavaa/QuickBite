@@ -142,21 +142,23 @@ export default function HeroBanner({
             <img
               src="/og-banner.png"
               alt="Zymeal Gourmet Food Showcase"
-              style={{ width: '100%', height: '300px', objectFit: 'cover' }}
+              style={{
+                width: '100%',
+                height: '340px',
+                objectFit: 'cover',
+                objectPosition: 'center 50%'
+              }}
             />
             <div style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(180deg, transparent 30%, rgba(7, 9, 14, 0.9) 100%)'
+              background: 'linear-gradient(180deg, rgba(7, 9, 14, 0.2) 0%, rgba(7, 9, 14, 0.88) 100%)'
             }} />
             <div style={{ position: 'absolute', bottom: '18px', left: '20px', right: '20px', textAlign: 'left' }}>
               <span className="badge badge-gold" style={{ marginBottom: '6px' }}>
                 <Star size={12} fill="#fbbf24" /> Chef's Gourmet Selection
               </span>
-              <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', margin: '4px 0' }}>
-                Elevate Every Meal
-              </h3>
-              <p style={{ fontSize: '0.82rem', color: '#cbd5e1', margin: 0 }}>
+              <p style={{ fontSize: '0.88rem', fontWeight: 600, color: '#f8fafc', margin: '4px 0 0 0' }}>
                 Handcrafted Biryanis • Wood-Fired Pizzas • Truffle Burgers • Mocktails
               </p>
             </div>
