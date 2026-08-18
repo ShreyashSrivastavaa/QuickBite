@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { ToastProvider } from './context/ToastContext';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 
+import Preloader from './components/Preloader';
 import Navbar from './components/Navbar';
 import HeroBanner from './components/HeroBanner';
 import ProductCard from './components/ProductCard';
@@ -22,6 +24,7 @@ function MainApp() {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [inThirtyMinOnly, setInThirtyMinOnly] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showPreloader, setShowPreloader] = useState(true);
 
   // Theme State ('dark' | 'light')
   const [theme, setTheme] = useState(localStorage.getItem('qb_theme') || 'dark');
@@ -95,6 +98,9 @@ function MainApp() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {/* Luxury Glassmorphic Preloader */}
+      {showPreloader && <Preloader onFinish={() => setShowPreloader(false)} />}
+
       {/* Top Glassmorphism Navigation */}
       <Navbar
         onOpenAuth={() => setIsAuthOpen(true)}
@@ -315,7 +321,6 @@ function MainApp() {
         isOpen={isAdminOpen}
         onClose={() => setIsAdminOpen(false)}
         onFoodCreated={() => {
-          // Re-fetch foods on landing page when admin adds new food
           const fetchFoods = async () => {
             try {
               const res = await api.get('/food');
@@ -379,6 +384,7 @@ export default function App() {
       <AuthProvider>
         <CartProvider>
           <MainApp />
+          <Analytics />
         </CartProvider>
       </AuthProvider>
     </ToastProvider>
