@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+// Smart API Base URL fallback: Localhost for local dev, live Render API for production Vercel
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (typeof window !== 'undefined' && window.location.hostname === 'localhost'
+    ? 'http://localhost:8000'
+    : 'https://quickbite-llg6.onrender.com');
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -29,7 +34,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // If token expired or unauthorized, clear storage if needed
       console.warn('Unauthorized request. Token may be invalid or expired.');
     }
     return Promise.reject(error);
