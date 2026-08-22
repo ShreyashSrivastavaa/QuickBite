@@ -24,7 +24,7 @@ export default function ProductCard({ food }) {
       position: 'relative'
     }}>
       {/* Food Image Container */}
-      <div style={{ position: 'relative', width: '100%', height: '190px', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width: '100%', height: 'clamp(160px, 22vw, 195px)', overflow: 'hidden' }}>
         <img
           src={imageUrl}
           alt={food.name}
@@ -40,8 +40,8 @@ export default function ProductCard({ food }) {
         {/* Category Pill & Veg/Non-Veg Indicator */}
         <div style={{
           position: 'absolute',
-          top: '12px',
-          left: '12px',
+          top: '10px',
+          left: '10px',
           display: 'flex',
           alignItems: 'center',
           gap: '6px'
@@ -50,8 +50,10 @@ export default function ProductCard({ food }) {
             className="badge badge-emerald"
             style={{
               backdropFilter: 'blur(10px)',
-              background: 'rgba(7, 9, 14, 0.85)',
-              color: '#34d399'
+              background: 'rgba(7, 9, 14, 0.88)',
+              color: '#34d399',
+              fontSize: '0.7rem',
+              padding: '4px 9px'
             }}
           >
             {food.category}
@@ -60,8 +62,8 @@ export default function ProductCard({ food }) {
           <span
             style={{
               backdropFilter: 'blur(10px)',
-              background: 'rgba(7, 9, 14, 0.85)',
-              padding: '4px 7px',
+              background: 'rgba(7, 9, 14, 0.88)',
+              padding: '4px 6px',
               borderRadius: '6px',
               display: 'inline-flex',
               alignItems: 'center',
@@ -71,8 +73,8 @@ export default function ProductCard({ food }) {
             title={isVeg ? 'Pure Vegetarian' : 'Non-Vegetarian'}
           >
             <div style={{
-              width: '13px',
-              height: '13px',
+              width: '12px',
+              height: '12px',
               border: `1.5px solid ${isVeg ? '#22c55e' : '#ef4444'}`,
               borderRadius: '3px',
               display: 'flex',
@@ -80,14 +82,14 @@ export default function ProductCard({ food }) {
               justifyContent: 'center',
             }}>
               {isVeg ? (
-                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22c55e' }} />
+                <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#22c55e' }} />
               ) : (
                 <div style={{
                   width: 0,
                   height: 0,
-                  borderLeft: '3.5px solid transparent',
-                  borderRight: '3.5px solid transparent',
-                  borderBottom: '6.5px solid #ef4444'
+                  borderLeft: '3px solid transparent',
+                  borderRight: '3px solid transparent',
+                  borderBottom: '6px solid #ef4444'
                 }} />
               )}
             </div>
@@ -99,14 +101,16 @@ export default function ProductCard({ food }) {
           className="badge badge-gold"
           style={{
             position: 'absolute',
-            top: '12px',
-            right: '12px',
+            top: '10px',
+            right: '10px',
             backdropFilter: 'blur(10px)',
-            background: 'rgba(7, 9, 14, 0.85)',
-            color: '#fbbf24'
+            background: 'rgba(7, 9, 14, 0.88)',
+            color: '#fbbf24',
+            fontSize: '0.7rem',
+            padding: '4px 8px'
           }}
         >
-          <Star size={12} fill="#fbbf24" color="#fbbf24" />
+          <Star size={11} fill="#fbbf24" color="#fbbf24" />
           {ratingVal.toFixed(1)}
         </span>
 
@@ -114,13 +118,13 @@ export default function ProductCard({ food }) {
         {qty > 0 && (
           <div style={{
             position: 'absolute',
-            bottom: '12px',
-            right: '12px',
+            bottom: '10px',
+            right: '10px',
             background: 'linear-gradient(135deg, #10b981, #059669)',
             color: '#ffffff',
-            fontSize: '0.75rem',
+            fontSize: '0.72rem',
             fontWeight: 800,
-            padding: '4px 10px',
+            padding: '3px 9px',
             borderRadius: 'var(--radius-full)',
             boxShadow: '0 4px 12px rgba(16, 185, 129, 0.5)',
             display: 'flex',
@@ -133,10 +137,10 @@ export default function ProductCard({ food }) {
       </div>
 
       {/* Food Details */}
-      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
+      <div style={{ padding: 'clamp(14px, 2vw, 20px)', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '8px', gap: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
               <div
                 style={{
                   width: '14px',
@@ -147,6 +151,7 @@ export default function ProductCard({ food }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
+                  marginTop: '3px'
                 }}
                 title={isVeg ? 'Pure Veg' : 'Non-Veg'}
               >
@@ -162,16 +167,16 @@ export default function ProductCard({ food }) {
                   }} />
                 )}
               </div>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.25 }}>
+              <h3 style={{ fontSize: 'clamp(1rem, 2vw, 1.15rem)', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.25 }}>
                 {food.name}
               </h3>
             </div>
           </div>
 
           <p style={{
-            fontSize: '0.85rem',
+            fontSize: '0.84rem',
             color: 'var(--text-secondary)',
-            marginBottom: '16px',
+            marginBottom: '14px',
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
@@ -186,20 +191,21 @@ export default function ProductCard({ food }) {
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          justify: 'space-between',
-          paddingTop: '14px',
-          borderTop: '1px solid var(--glass-border)'
+          justifyContent: 'space-between',
+          paddingTop: '12px',
+          borderTop: '1px solid var(--glass-border)',
+          gap: '8px'
         }}>
           <div>
-            <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'block' }}>Price</span>
-            <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)' }}>
+            <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)', display: 'block' }}>Price</span>
+            <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)' }}>
               ₹{food.price}
             </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              <Clock size={14} color="#34d399" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '3px', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+              <Clock size={13} color="#34d399" />
               <span>{readyTime}m</span>
             </div>
 
@@ -208,11 +214,12 @@ export default function ProductCard({ food }) {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                gap: '6px',
                 background: 'rgba(16, 185, 129, 0.15)',
                 border: '1px solid rgba(16, 185, 129, 0.4)',
                 borderRadius: '8px',
-                padding: '4px 8px'
+                padding: '3px 6px',
+                minHeight: '38px'
               }}>
                 <button
                   onClick={() => updateQuantity(food._id, qty - 1)}
@@ -224,14 +231,17 @@ export default function ProductCard({ food }) {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '2px'
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '6px'
                   }}
                   title="Reduce Quantity"
+                  aria-label="Reduce Quantity"
                 >
                   <Minus size={14} />
                 </button>
 
-                <span style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--primary)', minWidth: '16px', textAlign: 'center' }}>
+                <span style={{ fontSize: '0.88rem', fontWeight: 800, color: 'var(--primary)', minWidth: '16px', textAlign: 'center' }}>
                   {qty}
                 </span>
 
@@ -244,10 +254,13 @@ export default function ProductCard({ food }) {
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    justify: 'center',
-                    padding: '2px'
+                    justifyContent: 'center',
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '6px'
                   }}
                   title="Add More"
+                  aria-label="Add More"
                 >
                   <Plus size={14} />
                 </button>
@@ -257,9 +270,11 @@ export default function ProductCard({ food }) {
                 className="btn btn-primary"
                 onClick={() => addToCart(food)}
                 style={{
-                  padding: '8px 16px',
-                  fontSize: '0.85rem'
+                  padding: '7px 16px',
+                  fontSize: '0.85rem',
+                  minHeight: '38px'
                 }}
+                aria-label={`Add ${food.name} to Cart`}
               >
                 <Plus size={14} /> Add
               </button>

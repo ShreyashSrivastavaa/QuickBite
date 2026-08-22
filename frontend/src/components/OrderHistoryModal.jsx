@@ -66,39 +66,39 @@ export default function OrderHistoryModal({ isOpen, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" style={{ maxWidth: '640px' }} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Package size={22} color="var(--primary)" />
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-primary)' }}>My Order History</h2>
-            <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>⚡ Live Sync</span>
+        <div style={{ padding: 'clamp(14px, 2.5vw, 20px) clamp(16px, 3vw, 24px)', borderBottom: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Package size={20} color="var(--primary)" />
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)' }}>My Orders</h2>
+            <span className="badge badge-emerald" style={{ fontSize: '0.7rem' }}>⚡ Live Sync</span>
           </div>
-          <button className="btn btn-ghost btn-icon" onClick={onClose}>
-            <X size={20} />
+          <button className="btn btn-ghost btn-icon" onClick={onClose} aria-label="Close Order History" style={{ width: '38px', height: '38px' }}>
+            <X size={18} />
           </button>
         </div>
 
         {/* Content */}
-        <div style={{ padding: '24px', maxHeight: '70vh', overflowY: 'auto' }}>
+        <div style={{ padding: 'clamp(14px, 2.5vw, 20px)', maxHeight: '72vh', overflowY: 'auto' }}>
           {loading ? (
             <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-secondary)' }}>
               Loading order history...
             </div>
           ) : orders.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-secondary)' }}>
-              <Package size={48} color="#64748b" style={{ marginBottom: '12px' }} />
+              <Package size={44} color="#64748b" style={{ marginBottom: '12px' }} />
               <h3 style={{ fontSize: '1.1rem', marginBottom: '4px', color: 'var(--text-primary)' }}>No orders placed yet</h3>
-              <p style={{ fontSize: '0.85rem' }}>Place your first order and track its status live!</p>
+              <p style={{ fontSize: '0.84rem' }}>Place your first order and track its status live!</p>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {orders.map((ord) => (
-                <div key={ord._id} className="glass-card" style={{ padding: '18px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
+                <div key={ord._id} className="glass-card" style={{ padding: '14px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', flexWrap: 'wrap', gap: '6px' }}>
                     <div>
-                      <span style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--primary)' }}>
+                      <span style={{ fontSize: '0.88rem', fontWeight: 800, color: 'var(--primary)' }}>
                         {ord.orderID}
                       </span>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: '10px' }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginLeft: '8px' }}>
                         {new Date(ord.createdAt || ord.orderDate).toLocaleDateString()} at {new Date(ord.createdAt || ord.orderDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
@@ -106,20 +106,20 @@ export default function OrderHistoryModal({ isOpen, onClose }) {
                   </div>
 
                   {/* Order Items */}
-                  <div style={{ background: 'rgba(0, 0, 0, 0.04)', padding: '10px 14px', borderRadius: '10px', marginBottom: '12px', border: '1px solid var(--glass-border)' }}>
+                  <div style={{ background: 'rgba(0, 0, 0, 0.05)', padding: '8px 12px', borderRadius: '8px', marginBottom: '10px', border: '1px solid var(--glass-border)' }}>
                     {ord.items.map((item, idx) => (
-                      <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '4px', color: 'var(--text-primary)' }}>
-                        <span>{item.qty}x {item.name || item.food?.name || 'Food Item'}</span>
-                        <span style={{ color: 'var(--text-secondary)' }}>₹{(item.price || item.food?.price || 0) * item.qty}</span>
+                      <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.82rem', marginBottom: '4px', color: 'var(--text-primary)' }}>
+                        <span>{item.qty || item.quantity}x {item.name || item.food?.name || 'Gourmet Dish'}</span>
+                        <span style={{ color: 'var(--text-secondary)' }}>₹{(item.price || item.food?.price || item.unitPrice || 0) * (item.qty || item.quantity || 1)}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem' }}>
-                    <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-                      Address: {ord.deliveryAddress || 'Standard Delivery'}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.86rem', flexWrap: 'wrap', gap: '6px' }}>
+                    <span style={{ color: 'var(--text-muted)', fontSize: '0.76rem', maxWidth: '70%' }}>
+                      📍 {ord.deliveryAddress || 'Standard Delivery'}
                     </span>
-                    <strong style={{ fontSize: '1.15rem', color: 'var(--text-primary)' }}>
+                    <strong style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>
                       ₹{ord.totalAmount}
                     </strong>
                   </div>

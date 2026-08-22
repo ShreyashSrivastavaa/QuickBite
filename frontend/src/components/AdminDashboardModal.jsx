@@ -146,28 +146,36 @@ export default function AdminDashboardModal({ isOpen, onClose, onFoodCreated }) 
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" style={{ maxWidth: '860px', width: '95%' }} onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <ShieldCheck size={24} color="#f97316" />
-            <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-              Zymeal Admin Console • Live
+        <div style={{
+          padding: 'clamp(14px, 2.5vw, 20px) clamp(16px, 3vw, 24px)',
+          borderBottom: '1px solid var(--glass-border)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '10px'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <ShieldCheck size={22} color="#f97316" />
+            <h2 style={{ fontSize: 'clamp(1.1rem, 2.5vw, 1.3rem)', fontWeight: 700, color: 'var(--text-primary)' }}>
+              Admin Console • Live
             </h2>
-            <span className="badge badge-emerald" style={{ fontSize: '0.72rem' }}>⚡ Real-Time Sync</span>
+            <span className="badge badge-emerald hide-mobile" style={{ fontSize: '0.7rem' }}>⚡ Real-Time Sync</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <button className="btn btn-ghost" onClick={() => fetchAdminData(false)} title="Manual Refresh">
-              <RefreshCw size={16} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button className="btn btn-ghost" onClick={() => fetchAdminData(false)} title="Manual Refresh" style={{ padding: '6px 10px', minHeight: '36px' }}>
+              <RefreshCw size={15} />
             </button>
-            <button className="btn btn-ghost" onClick={logoutAdmin} style={{ color: '#ef4444' }}>
-              Logout Admin
+            <button className="btn btn-ghost" onClick={logoutAdmin} style={{ color: '#ef4444', fontSize: '0.82rem', padding: '6px 10px', minHeight: '36px' }}>
+              Logout
             </button>
-            <button className="btn btn-ghost btn-icon" onClick={onClose}>
-              <X size={20} />
+            <button className="btn btn-ghost btn-icon" onClick={onClose} aria-label="Close Admin Modal" style={{ width: '36px', height: '36px' }}>
+              <X size={18} />
             </button>
           </div>
         </div>
 
-        <div style={{ padding: '24px', maxHeight: '80vh', overflowY: 'auto' }}>
+        <div style={{ padding: 'clamp(14px, 2.5vw, 22px)', maxHeight: '78vh', overflowY: 'auto' }}>
           {loading ? (
             <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-secondary)' }}>
               Loading Admin Analytics & Live Orders...
@@ -175,65 +183,65 @@ export default function AdminDashboardModal({ isOpen, onClose, onFoodCreated }) 
           ) : (
             <>
               {/* Analytics Metric Cards in ₹ with High Contrast */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px', marginBottom: '24px' }}>
-                <div className="glass-card" style={{ padding: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#10b981', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Total Revenue</span>
-                    <IndianRupee size={20} />
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '12px', marginBottom: '20px' }}>
+                <div className="glass-card" style={{ padding: '12px 14px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#10b981', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Revenue</span>
+                    <IndianRupee size={16} />
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                  <div style={{ fontSize: 'clamp(1.2rem, 3vw, 1.45rem)', fontWeight: 800, color: 'var(--text-primary)' }}>
                     ₹{stats?.totalRevenue ? stats.totalRevenue.toLocaleString() : '0'}
                   </div>
                 </div>
 
-                <div className="glass-card" style={{ padding: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#f97316', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Total Orders</span>
-                    <ShoppingBag size={20} />
+                <div className="glass-card" style={{ padding: '12px 14px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#f97316', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Orders</span>
+                    <ShoppingBag size={16} />
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                  <div style={{ fontSize: 'clamp(1.2rem, 3vw, 1.45rem)', fontWeight: 800, color: 'var(--text-primary)' }}>
                     {stats?.totalOrders || 0}
                   </div>
                 </div>
 
-                <div className="glass-card" style={{ padding: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#f59e0b', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Kitchen Active Orders</span>
-                    <Utensils size={20} />
+                <div className="glass-card" style={{ padding: '12px 14px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#f59e0b', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Active</span>
+                    <Utensils size={16} />
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                  <div style={{ fontSize: 'clamp(1.2rem, 3vw, 1.45rem)', fontWeight: 800, color: 'var(--text-primary)' }}>
                     {stats?.pendingOrders || 0}
                   </div>
                 </div>
 
-                <div className="glass-card" style={{ padding: '16px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#38bdf8', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Registered Users</span>
-                    <Users size={20} />
+                <div className="glass-card" style={{ padding: '12px 14px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: '#38bdf8', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', fontWeight: 600 }}>Users</span>
+                    <Users size={16} />
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                  <div style={{ fontSize: 'clamp(1.2rem, 3vw, 1.45rem)', fontWeight: 800, color: 'var(--text-primary)' }}>
                     {stats?.totalUsers || 0}
                   </div>
                 </div>
               </div>
 
               {/* Action Toolbar */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>Live Orders Management</h3>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>Live Orders</h3>
                 <button
                   className="btn btn-primary"
-                  style={{ fontSize: '0.85rem' }}
+                  style={{ fontSize: '0.82rem', padding: '6px 12px', minHeight: '36px' }}
                   onClick={() => setShowAddFood(!showAddFood)}
                 >
-                  <Plus size={16} />
-                  <span>{showAddFood ? 'Close Form' : 'Add New Food Item'}</span>
+                  <Plus size={15} />
+                  <span>{showAddFood ? 'Close Form' : 'Add Food Item'}</span>
                 </button>
               </div>
 
               {/* Add Food Form */}
               {showAddFood && (
-                <form onSubmit={handleCreateFood} className="glass-panel" style={{ padding: '20px', borderRadius: '14px', marginBottom: '24px' }}>
-                  <h4 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '14px', color: 'var(--primary)' }}>
+                <form onSubmit={handleCreateFood} className="glass-panel" style={{ padding: '16px', borderRadius: '14px', marginBottom: '20px' }}>
+                  <h4 style={{ fontSize: '0.95rem', fontWeight: 700, marginBottom: '12px', color: 'var(--primary)' }}>
                     Add New Product to Menu
                   </h4>
 
@@ -252,7 +260,7 @@ export default function AdminDashboardModal({ isOpen, onClose, onFoodCreated }) 
                     </select>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
                     <div className="input-group">
                       <label className="input-label">Food Title</label>
                       <input
@@ -277,7 +285,7 @@ export default function AdminDashboardModal({ isOpen, onClose, onFoodCreated }) 
                     </div>
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
                     <div className="input-group">
                       <label className="input-label">Price in INR (₹)</label>
                       <input
@@ -323,7 +331,7 @@ export default function AdminDashboardModal({ isOpen, onClose, onFoodCreated }) 
                     />
                   </div>
 
-                  <button type="submit" className="btn btn-accent glow-accent" style={{ width: '100%', height: '42px', marginTop: '8px' }}>
+                  <button type="submit" className="btn btn-accent glow-accent" style={{ width: '100%', minHeight: '40px', marginTop: '6px' }}>
                     Save & Publish Food Item
                   </button>
                 </form>
@@ -335,36 +343,37 @@ export default function AdminDashboardModal({ isOpen, onClose, onFoodCreated }) 
                   No customer orders found.
                 </div>
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {orders.map((ord) => (
-                    <div key={ord._id} className="glass-card" style={{ padding: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+                    <div key={ord._id} className="glass-card" style={{ padding: '14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
                       <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-                          <span style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--primary)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
+                          <span style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--primary)' }}>
                             {ord.orderID}
                           </span>
-                          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                          <span style={{ fontSize: '0.76rem', color: 'var(--text-secondary)' }}>
                             Customer: <b>{ord.user?.email || 'Guest'}</b>
                           </span>
                         </div>
-                        <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
                           Total: <b style={{ color: 'var(--text-primary)' }}>₹{ord.totalAmount}</b> ({ord.items?.length || 0} items) • {ord.paidThrough}
                         </span>
                       </div>
 
                       {/* Order Status Selector */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <select
                           value={ord.orderStatus}
                           onChange={(e) => handleUpdateStatus(ord._id, e.target.value)}
                           className="input-field"
                           style={{
-                            padding: '6px 12px',
-                            fontSize: '0.85rem',
+                            padding: '6px 10px',
+                            fontSize: '0.82rem',
                             width: 'auto',
                             fontWeight: 700,
                             color: ord.orderStatus === 'delivered' ? '#10b981' : '#f97316',
-                            borderColor: 'var(--glass-border)'
+                            borderColor: 'var(--glass-border)',
+                            minHeight: '36px'
                           }}
                         >
                           <option value="pending">pending</option>
