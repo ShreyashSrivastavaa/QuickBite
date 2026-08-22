@@ -13,11 +13,18 @@ export default function OrderHistoryModal({ isOpen, onClose }) {
     try {
       if (!silent) setLoading(true);
       const res = await api.get('/user/order');
-      if (res.data.success) {
-        setOrders(res.data.orders || []);
+      if (res.data.success && res.data.orders) {
+        setOrders(res.data.orders);
+        return;
       }
     } catch (err) {
-      console.error('Failed to fetch user orders:', err);
+      // Load from local orders storage
+      try {
+        const local = JSON.parse(localStorage.getItem('qb_orders') || '[]');
+        setOrders(local);
+      } catch (e) {
+        setOrders([]);
+      }
     } finally {
       if (!silent) setLoading(false);
     }

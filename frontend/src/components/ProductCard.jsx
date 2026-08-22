@@ -13,6 +13,7 @@ export default function ProductCard({ food }) {
   const imageUrl = food.images && food.images.length > 0 ? food.images[0] : DEFAULT_FOOD_IMAGE;
   const ratingVal = food.rating?.rate || 4.8;
   const readyTime = food.readyTime || 25;
+  const isVeg = food.isVeg !== undefined ? food.isVeg : food.name.toLowerCase().includes('(veg)');
 
   return (
     <div className="glass-card" style={{
@@ -36,20 +37,62 @@ export default function ProductCard({ food }) {
           }}
         />
 
-        {/* Category Pill */}
-        <span
-          className="badge badge-emerald"
-          style={{
-            position: 'absolute',
-            top: '12px',
-            left: '12px',
-            backdropFilter: 'blur(10px)',
-            background: 'rgba(7, 9, 14, 0.85)',
-            color: '#34d399'
-          }}
-        >
-          {food.category}
-        </span>
+        {/* Category Pill & Veg/Non-Veg Indicator */}
+        <div style={{
+          position: 'absolute',
+          top: '12px',
+          left: '12px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px'
+        }}>
+          <span
+            className="badge badge-emerald"
+            style={{
+              backdropFilter: 'blur(10px)',
+              background: 'rgba(7, 9, 14, 0.85)',
+              color: '#34d399'
+            }}
+          >
+            {food.category}
+          </span>
+
+          <span
+            style={{
+              backdropFilter: 'blur(10px)',
+              background: 'rgba(7, 9, 14, 0.85)',
+              padding: '4px 7px',
+              borderRadius: '6px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              border: `1px solid ${isVeg ? 'rgba(34, 197, 94, 0.4)' : 'rgba(239, 68, 68, 0.4)'}`
+            }}
+            title={isVeg ? 'Pure Vegetarian' : 'Non-Vegetarian'}
+          >
+            <div style={{
+              width: '13px',
+              height: '13px',
+              border: `1.5px solid ${isVeg ? '#22c55e' : '#ef4444'}`,
+              borderRadius: '3px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              {isVeg ? (
+                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22c55e' }} />
+              ) : (
+                <div style={{
+                  width: 0,
+                  height: 0,
+                  borderLeft: '3.5px solid transparent',
+                  borderRight: '3.5px solid transparent',
+                  borderBottom: '6.5px solid #ef4444'
+                }} />
+              )}
+            </div>
+          </span>
+        </div>
 
         {/* Rating Badge */}
         <span
@@ -93,9 +136,36 @@ export default function ProductCard({ food }) {
       <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1, justifyContent: 'space-between' }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '8px', gap: '8px' }}>
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.25 }}>
-              {food.name}
-            </h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div
+                style={{
+                  width: '14px',
+                  height: '14px',
+                  border: `1.5px solid ${isVeg ? '#22c55e' : '#ef4444'}`,
+                  borderRadius: '3px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+                title={isVeg ? 'Pure Veg' : 'Non-Veg'}
+              >
+                {isVeg ? (
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22c55e' }} />
+                ) : (
+                  <div style={{
+                    width: 0,
+                    height: 0,
+                    borderLeft: '3.5px solid transparent',
+                    borderRight: '3.5px solid transparent',
+                    borderBottom: '6.5px solid #ef4444'
+                  }} />
+                )}
+              </div>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.25 }}>
+                {food.name}
+              </h3>
+            </div>
           </div>
 
           <p style={{

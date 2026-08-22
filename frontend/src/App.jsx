@@ -15,6 +15,7 @@ import AuthModal from './components/AuthModal';
 import AdminDashboardModal from './components/AdminDashboardModal';
 
 import api from './services/api';
+import { MOCK_CATEGORIES, getFilteredFoods } from './services/mockData';
 import { Star, ShieldCheck, Heart, Sparkles, ArrowRight, Utensils } from 'lucide-react';
 
 function MainApp() {
@@ -23,6 +24,7 @@ function MainApp() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [inThirtyMinOnly, setInThirtyMinOnly] = useState(false);
+  const [vegFilter, setVegFilter] = useState('all'); // 'all' | 'veg' | 'non-veg'
   const [loading, setLoading] = useState(true);
   const [showPreloader, setShowPreloader] = useState(true);
 
@@ -53,17 +55,19 @@ function MainApp() {
     const fetchCategories = async () => {
       try {
         const res = await api.get('/food/categories');
-        if (res.data.success) {
-          setCategories(res.data.categories || []);
+        if (res.data.success && res.data.categories?.length > 0) {
+          setCategories(res.data.categories);
+          return;
         }
       } catch (err) {
-        console.error('Failed to load categories:', err);
+        console.warn('API categories unavailable, using fallback menu categories.');
       }
+      setCategories(MOCK_CATEGORIES);
     };
     fetchCategories();
   }, []);
 
-  // Fetch Foods based on Search Query, Category, or Quick Delivery Filter
+  // Fetch Foods based on Search Query, Category, Veg/Non-Veg, or Quick Delivery Filter
   useEffect(() => {
     const fetchFoods = async () => {
       try {
@@ -79,14 +83,30 @@ function MainApp() {
         }
 
         const res = await api.get(endpoint);
-        if (res.data.success) {
-          setFoods(res.data.foods || []);
+        if (res.data.success && res.data.foods?.length > 0) {
+          let list = res.data.foods;
+          if (vegFilter === 'veg') {
+            list = list.filter((item) => item.isVeg === true || item.name.toLowerCase().includes('(veg)'));
+          } else if (vegFilter === 'non-veg') {
+            list = list.filter((item) => item.isVeg === false && !item.name.toLowerCase().includes('(veg)'));
+          }
+          setFoods(list);
+          setLoading(false);
+          return;
         }
       } catch (err) {
-        console.error('Failed to load foods:', err);
-      } finally {
-        setLoading(false);
+        console.warn('API foods unavailable, using fallback gourmet catalog.');
       }
+
+      // Standalone / Fallback dataset
+      const localFoods = getFilteredFoods({
+        searchQuery,
+        selectedCategory,
+        inThirtyMinOnly,
+        vegFilter,
+      });
+      setFoods(localFoods);
+      setLoading(false);
     };
 
     const timer = setTimeout(() => {
@@ -94,7 +114,7 @@ function MainApp() {
     }, 250);
 
     return () => clearTimeout(timer);
-  }, [searchQuery, selectedCategory, inThirtyMinOnly]);
+  }, [searchQuery, selectedCategory, inThirtyMinOnly, vegFilter]);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -119,6 +139,8 @@ function MainApp() {
         categories={categories}
         inThirtyMinOnly={inThirtyMinOnly}
         setInThirtyMinOnly={setInThirtyMinOnly}
+        vegFilter={vegFilter}
+        setVegFilter={setVegFilter}
       />
 
       {/* Product Catalog Grid */}
@@ -128,6 +150,10 @@ function MainApp() {
             <h2 className="font-serif" style={{ fontSize: '2rem', fontWeight: 700, color: 'var(--text-primary)' }}>
               {searchQuery
                 ? `Search Results for "${searchQuery}"`
+                : vegFilter === 'veg'
+                ? '🌿 Pure Veg Gourmet Menu'
+                : vegFilter === 'non-veg'
+                ? '🍗 Non-Veg Gourmet Delicacies'
                 : inThirtyMinOnly
                 ? '⚡ Express Delivery (Under 30 Mins)'
                 : selectedCategory
@@ -135,7 +161,11 @@ function MainApp() {
                 : 'Popular Gourmet Menu'}
             </h2>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-              Handcrafted dishes prepared fresh by top chefs across India.
+              {vegFilter === 'veg'
+                ? '100% pure vegetarian culinary masterpieces prepared with artisanal ingredients.'
+                : vegFilter === 'non-veg'
+                ? 'Handcrafted dum mutton, slow-cooked chicken, and succulent barbecue meats.'
+                : 'Handcrafted dishes prepared fresh by top chefs across India.'}
             </p>
           </div>
           <span className="badge badge-emerald">
@@ -161,6 +191,7 @@ function MainApp() {
                 setSearchQuery('');
                 setSelectedCategory('');
                 setInThirtyMinOnly(false);
+                setVegFilter('all');
               }}
             >
               Reset Menu Filters

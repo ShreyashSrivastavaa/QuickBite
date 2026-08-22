@@ -9,6 +9,8 @@ export default function HeroBanner({
   categories,
   inThirtyMinOnly,
   setInThirtyMinOnly,
+  vegFilter,
+  setVegFilter,
 }) {
   return (
     <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 20px 20px 20px' }}>
@@ -241,7 +243,7 @@ export default function HeroBanner({
         </div>
       </div>
 
-      {/* Category Pills Bar (Horizontally Scrollable) */}
+      {/* Category & Dietary Filter Pills Bar (Horizontally Scrollable) */}
       <div className="no-scrollbar" style={{
         display: 'flex',
         alignItems: 'center',
@@ -250,23 +252,103 @@ export default function HeroBanner({
         padding: '6px 2px',
         scrollBehavior: 'smooth'
       }}>
+        {/* All Menu Button */}
         <button
-          className={`btn ${selectedCategory === '' && !inThirtyMinOnly ? 'btn-primary' : 'btn-ghost'}`}
+          className={`btn ${selectedCategory === '' && !inThirtyMinOnly && vegFilter === 'all' ? 'btn-primary' : 'btn-ghost'}`}
           onClick={() => {
             setSelectedCategory('');
             setInThirtyMinOnly(false);
+            if (setVegFilter) setVegFilter('all');
           }}
           style={{ borderRadius: 'var(--radius-full)', flexShrink: 0 }}
         >
           <Compass size={15} />
-          <span>All Menu</span>
+          <span>All Dishes</span>
         </button>
 
+        {/* Pure Veg Filter Button */}
+        <button
+          className="btn"
+          onClick={() => {
+            if (setVegFilter) {
+              setVegFilter(vegFilter === 'veg' ? 'all' : 'veg');
+            }
+          }}
+          style={{
+            borderRadius: 'var(--radius-full)',
+            flexShrink: 0,
+            background: vegFilter === 'veg' ? 'linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(16, 185, 129, 0.35))' : 'rgba(255, 255, 255, 0.05)',
+            border: `1.5px solid ${vegFilter === 'veg' ? '#22c55e' : 'rgba(34, 197, 94, 0.35)'}`,
+            color: vegFilter === 'veg' ? '#4ade80' : 'var(--text-secondary)',
+            boxShadow: vegFilter === 'veg' ? '0 0 16px rgba(34, 197, 94, 0.35)' : 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            transition: 'all 0.25s ease'
+          }}
+        >
+          <div style={{
+            width: '14px',
+            height: '14px',
+            border: '1.5px solid #22c55e',
+            borderRadius: '3px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(34, 197, 94, 0.1)'
+          }}>
+            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#22c55e' }} />
+          </div>
+          <span style={{ fontWeight: vegFilter === 'veg' ? 700 : 500 }}>Pure Veg</span>
+        </button>
+
+        {/* Non-Veg Filter Button */}
+        <button
+          className="btn"
+          onClick={() => {
+            if (setVegFilter) {
+              setVegFilter(vegFilter === 'non-veg' ? 'all' : 'non-veg');
+            }
+          }}
+          style={{
+            borderRadius: 'var(--radius-full)',
+            flexShrink: 0,
+            background: vegFilter === 'non-veg' ? 'linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(220, 38, 38, 0.35))' : 'rgba(255, 255, 255, 0.05)',
+            border: `1.5px solid ${vegFilter === 'non-veg' ? '#ef4444' : 'rgba(239, 68, 68, 0.35)'}`,
+            color: vegFilter === 'non-veg' ? '#f87171' : 'var(--text-secondary)',
+            boxShadow: vegFilter === 'non-veg' ? '0 0 16px rgba(239, 68, 68, 0.35)' : 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            transition: 'all 0.25s ease'
+          }}
+        >
+          <div style={{
+            width: '14px',
+            height: '14px',
+            border: '1.5px solid #ef4444',
+            borderRadius: '3px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(239, 68, 68, 0.1)'
+          }}>
+            <div style={{
+              width: 0,
+              height: 0,
+              borderLeft: '3.5px solid transparent',
+              borderRight: '3.5px solid transparent',
+              borderBottom: '6.5px solid #ef4444'
+            }} />
+          </div>
+          <span style={{ fontWeight: vegFilter === 'non-veg' ? 700 : 500 }}>Non-Veg</span>
+        </button>
+
+        {/* Under 30 Mins Filter Button */}
         <button
           className={`btn ${inThirtyMinOnly ? 'btn-accent' : 'btn-ghost'}`}
           onClick={() => {
             setInThirtyMinOnly(!inThirtyMinOnly);
-            setSelectedCategory('');
           }}
           style={{ borderRadius: 'var(--radius-full)', flexShrink: 0 }}
         >
@@ -274,12 +356,15 @@ export default function HeroBanner({
           <span>⚡ Under 30 Mins</span>
         </button>
 
+        <div style={{ height: '22px', width: '1px', background: 'var(--glass-border)', margin: '0 4px', flexShrink: 0 }} />
+
+        {/* Categories */}
         {categories.map((cat) => (
           <button
             key={cat}
             className={`btn ${selectedCategory === cat && !inThirtyMinOnly ? 'btn-primary' : 'btn-ghost'}`}
             onClick={() => {
-              setSelectedCategory(cat);
+              setSelectedCategory(selectedCategory === cat ? '' : cat);
               setInThirtyMinOnly(false);
             }}
             style={{ borderRadius: 'var(--radius-full)', flexShrink: 0 }}

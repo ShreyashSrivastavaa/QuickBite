@@ -41,6 +41,10 @@ const productSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    isVeg: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );
